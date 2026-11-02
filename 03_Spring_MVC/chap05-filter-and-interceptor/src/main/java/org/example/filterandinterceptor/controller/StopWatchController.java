@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class StopWatchController {
-// /stopwatch로 들어오면 2초 기다린 뒤 result.html을 보여줌
+// stopwatch로 들어오면 2초 기다린 뒤 result.html을 보여줌
 
     @GetMapping("/stopwatch")
     public String stopwatch(Model model) throws InterruptedException {

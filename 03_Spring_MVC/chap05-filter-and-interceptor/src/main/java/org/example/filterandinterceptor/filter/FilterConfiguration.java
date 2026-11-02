@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 public class FilterConfiguration {
 //  "StopWatchFilter를 /stopwatch 주소에 붙여라"라고 Spring에 등록
 
-   /*
-   * Filter는 servlet 기술이므로 servlet Container에 등록해야함.
-   * FilterRegistrationBean
-   * - 어떤 url에 적용될지
-    * - spring Context에 Bean으로 FILTER를 등록 할 수 있게 해주는 클래스
-    * */
+    /*
+     * Filter는 servlet 기술이므로 servlet Container에 등록해야함.
+     * FilterRegistrationBean
+     * - 어떤 url에 적용될지
+     * - spring Context에 Bean으로 FILTER를 등록 할 수 있게 해주는 클래스
+     * */
 
 
     // ② 이 메서드가 돌려주는 걸 Spring이 가져가서 관리

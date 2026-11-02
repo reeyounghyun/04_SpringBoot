@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
@@ -26,6 +27,24 @@ public class StopWatchFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
+        /*chain.doFilter()를 호출하기 전은 Filter의 전처리 영역*/
+        /*
+         * ServletRequest와 ServletResponse : HTTP 전용 타입이 아님
+         * -> URI, HEADER, 상태코드 (HTTP)을 사용하기 위해 변환
+         * */
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+        System.out.println("httpRequest.getRequestURI() : " + httpRequest.getRequestURI());
+        if (httpRequest.getRequestURI().equals("/filter/block")
+                && httpRequest.getHeader("X-Test") == null) {
+
+            // System.out.println("/filter/block 요청이 들어옴??");
+            System.out.println("[Filter] X-Test 헤더가 없어 요청 차단.");
+
+            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "X-Test 헤더가 필요합니다.");
+            return; // Chain.doFilter()를 호출하지 않으므로 이후 과정인 DispatcherServlet. Controller 동이 실행되지 않음
+        }
 
         /* ===== 전처리 : 컨트롤러 실행 "전" =====*/
         System.out.println("[2.Filter] 전처리 시간 측정");

@@ -6,6 +6,21 @@
 </head>
 <body>
     <h1>Filter와 Interceptor</h1>
-    <button onclick="location.href='/stopwatch'">StopWatch</button>
+    <button onclick="location.href='/stopwatch'">
+        수행 시간 확인하기
+    </button>
+
+    <button onclick="location.href='/filter/block'">
+        Filter Block 확인하기
+    </button>
+
+    <button onclick="location.href='/interceptor/block'">
+        Interceptor Block 확인하기
+    </button>
+
+    <!--?access=granted => 파라미터 -->
+    <button onclick="location.href='/interceptor/block?access=granted'">
+        Interceptor Block 안되는것 확인
+    </button>
 </body>
 </html>
