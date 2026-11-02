@@ -32,7 +32,7 @@ public class MappingController {
     @RequestMapping("/welcome")
     public String welcome(Model model) {
         model.addAttribute("message", "스터디룸에 오신 것을 환영합니다.");
-        return "result";
+        return "result"; // 논리뷰 경로가 View Resolver가 처리한다.
     }
 
     /**
@@ -54,12 +54,12 @@ public class MappingController {
 
     /**
      * 문제 1-3. POST 확인 처리
-     *
+     * <p>
      * 요청: POST /mapping/confirm
      * 1. POST 전용 매핑을 작성한다. confirmForm과 URL은 같고 요청 방식은 다르다.
      * 2. Model에 message="예약 확인 요청을 처리했습니다."를 추가한다.
      * 3. 논리 뷰 이름 result를 반환한다.
-     *
+     *</p>
      * 확인: POST 확인 버튼을 누르면 예약 확인 요청을 처리했습니다.가 표시된다.
      */
     @PostMapping("/confirm")
@@ -89,12 +89,12 @@ public class MappingController {
 
     /**
      * 문제 1-5. 경로 변수로 방 번호 받기
-     *
+     *<p>
      * 요청: GET /mapping/rooms/{roomNo}
      * 1. @PathVariable("roomNo")로 경로의 방 번호를 int roomNo에 바인딩한다.
      * 2. Model에 roomNo를 int로 추가하고 message에 방 번호 + "번 스터디룸입니다."를 넣는다.
      * 3. 논리 뷰 이름 result를 반환한다. 입력값이 달라지면 문구도 바뀌어야 한다.
-     *
+     *</p>
      * 확인: /mapping/rooms/7 -> roomNo=7, message=7번 스터디룸입니다.
      *       /mapping/rooms/12 -> roomNo=12, message=12번 스터디룸입니다.
      *       /mapping/rooms/abc -> HTTP 400 (Spring의 int 변환 실패)

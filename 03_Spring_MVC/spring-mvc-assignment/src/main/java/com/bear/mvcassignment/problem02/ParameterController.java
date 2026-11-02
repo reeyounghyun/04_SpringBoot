@@ -83,6 +83,9 @@ public class ParameterController {
      *       ?keyword=스프링&page=2&tag=오전 -> keyword=스프링, page=2, tag=오전
      *       ?keyword=자바&page= -> page=1 (누락뿐 아니라 빈 값도 기본값 사용)
      *       keyword 누락 또는 숫자가 아닌 page=abc -> HTTP 400
+     *
+     *       /parameters/search?keyword=자바&page=1&tag=y
+     *       /parameters/search?keyword=자바&page=1&tag=
      */
     @GetMapping("/search")
     public String search(@RequestParam("keyword") String keyword,

@@ -37,7 +37,7 @@ public class ReservationController {
      * GET /reservations/preview는 허용하지 않아야 한다(HTTP 405).
      */
     @PostMapping("/preview")
-    public String preview(ReservationForm reservation, Model model) {
+    public String preview(@ModelAttribute("reservation") ReservationForm reservation, Model model) {
         //throw new UnsupportedOperationException("TODO 3-1");
 
         model.addAttribute("totalPrice", reservation.getHours() * reservation.getPrice());
@@ -65,7 +65,7 @@ public class ReservationController {
      *       이동한 GET 화면을 다시 새로고침하면 문구가 사라져야 한다.
      */
     @PostMapping("/complete")
-    public String complete(ReservationForm reservation, RedirectAttributes redirectAttributes) {
+    public String complete(@ModelAttribute("reservation")  ReservationForm reservation, RedirectAttributes redirectAttributes) {
        // throw new UnsupportedOperationException("TODO 3-2");
 
         String message = reservation.getApplicant() + "님의 " + reservation.getRoomName() + " 예약이 완료되었습니다.";
@@ -92,7 +92,6 @@ public class ReservationController {
     @GetMapping("/complete")
     public String completePage() {
         //throw new UnsupportedOperationException("TODO 3-3");
-
         return "reservations/complete";
     }
 }
