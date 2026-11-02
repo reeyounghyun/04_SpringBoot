@@ -6,18 +6,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class StopWatchController {
+// /stopwatch로 들어오면 2초 기다린 뒤 result.html을 보여줌
 
     @GetMapping("/stopwatch")
     public String stopwatch(Model model) throws InterruptedException {
-        System.out.println("[Controller] handlerMethod 호출");
+        System.out.println("[3.Controller] handlerMethod 호출");
 
         Thread.sleep(1000);
-        System.out.println("[Controller] 1초 경과");
+        System.out.println("[3.Controller] 1초 경과");
 
         Thread.sleep(1000);
-        System.out.println("[Controller] 2초 경과");
+        System.out.println("[3.Controller] 2초 경과");
 
-        model.addAttribute("elapsedTime", "2초");
+        model.addAttribute("수행시간", "2초");
 
         return "result";
     }
