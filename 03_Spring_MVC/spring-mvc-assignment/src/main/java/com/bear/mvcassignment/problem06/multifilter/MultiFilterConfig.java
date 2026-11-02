@@ -28,7 +28,6 @@ public class MultiFilterConfig {
         FilterRegistrationBean<FirstFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new FirstFilter());
 
-
         registration.addUrlPatterns("/filters/multi", "/filters/multi/*");
 
         registration.setOrder(1);
