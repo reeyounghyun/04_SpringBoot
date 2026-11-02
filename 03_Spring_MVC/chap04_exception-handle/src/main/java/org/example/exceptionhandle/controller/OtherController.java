@@ -24,4 +24,12 @@ public class OtherController {
 
         return "/";
     }
+
+    @GetMapping("/other-controller-array")
+    public String arrayIndexOutOfBoundsException() {
+        int[] arr = new int[1];
+        System.out.println(arr[1]); // ArrayIndexOutOfBoundsException 발생 (0번만 있음)
+
+        return "/";
+    }
 }

@@ -43,4 +43,12 @@ public class GlobalExceptionHandler {
 
         return "error/default";
     }
+
+    // 전역 ArrayIndexOutOfBoundsException
+    // - Exception 핸들러보다 구체적인 타입이므로 이 메소드가 우선 실행된다.
+    @ExceptionHandler(ArrayIndexOutOfBoundsException.class)
+    public String arrayIndexOutOfBoundsException(ArrayIndexOutOfBoundsException exception) {
+
+        return "error/controller-array";
+    }
 }
