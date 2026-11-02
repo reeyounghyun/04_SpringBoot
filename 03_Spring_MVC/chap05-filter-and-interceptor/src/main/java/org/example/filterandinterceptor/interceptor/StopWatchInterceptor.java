@@ -22,7 +22,7 @@ public class StopWatchInterceptor implements HandlerInterceptor {
      * */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("[Interceptor] preHandle - 컨트롤러 호출 전 !");
+        System.out.println("[3.Interceptor] preHandle - 컨트롤러 호출 전 !");
 
         // 요청 파라미터를 검사해 Interceptor에서 요청을 차단
         if (request.getRequestURI().equals("/interceptor/block")
@@ -50,7 +50,7 @@ public class StopWatchInterceptor implements HandlerInterceptor {
         long startTime = (long) request.getAttribute("interceptorStartTime");
         long interval = System.currentTimeMillis() - startTime;
 
-        System.out.println("[Interceptor] postHandle - 컨트롤러 호출 후, 뷰 랜더링 전 !");
+        System.out.println("[5.Interceptor] postHandle - 컨트롤러 호출 후, 뷰 랜더링 전 !");
         // @RestController 처럼 화면이 없는 응답은 modelAndView가 null
         if (modelAndView != null) {
             modelAndView.addObject("interceptorInterval", interval);
@@ -68,6 +68,6 @@ public class StopWatchInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
         //HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 
-        System.out.println("[Interceptor] afterCompletion - 뷰 랜더링 후 !");
+        System.out.println("[6.Interceptor] afterCompletion - 뷰 랜더링 후 !");
     }
 }

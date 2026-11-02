@@ -54,11 +54,11 @@ public class StopWatchFilter implements Filter {
         // -> 컨트롤러가 실행되고, 끝날 때까지 여기서 기다림
         chain.doFilter(request, response);
 
-        System.out.println("[4.Filter] 후처리");
+        System.out.println("[7.Filter] 후처리");
         // ===== 후처리 : 컨트롤러 실행 "후" =====
         long endTime = System.currentTimeMillis(); // 로직 종료 후 시간 기록
 
-        System.out.println("[4-1.Filter] - 전체 체인 수행 시간 : " + (endTime - startTime) + "ms");
+        System.out.println("[7-1.Filter] - 전체 체인 수행 시간 : " + (endTime - startTime) + "ms");
 
     }
 

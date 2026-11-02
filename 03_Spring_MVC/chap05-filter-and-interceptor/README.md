@@ -34,17 +34,17 @@ StopWatchFilter          [2.Filter] 전처리              startTime 기록
    ▼
 DispatcherServlet        @GetMapping("/stopwatch") 메서드를 찾음
    ▼
-StopWatchInterceptor     preHandle()                    request에 interceptorStartTime 저장
+StopWatchInterceptor     [3.Interceptor] preHandle()    request에 interceptorStartTime 저장
    ▼
-StopWatchController      [3.Controller] 2초 대기 → return "result"
+StopWatchController      [4.Controller] 2초 대기 → return "result"
    ▼
-StopWatchInterceptor     postHandle()                   걸린 시간을 modelAndView에 담음
+StopWatchInterceptor     [5.Interceptor] postHandle()   걸린 시간을 modelAndView에 담음
    ▼
 result.html 렌더링       "인터셉터 수행시간 : 2003 ms"
    ▼
-StopWatchInterceptor     afterCompletion()              화면까지 끝난 뒤
+StopWatchInterceptor     [6.Interceptor] afterCompletion()  화면까지 끝난 뒤
    ▼
-StopWatchFilter          [4.Filter] 후처리              전체 체인 수행 시간 출력
+StopWatchFilter          [7.Filter] 후처리              전체 체인 수행 시간 출력
 ```
 
 - 필터는 인터셉터를 **바깥에서 감싼다.** 그래서 필터 시간이 인터셉터 시간보다 조금 더 길다.
@@ -125,7 +125,7 @@ public void doFilter(ServletRequest request, ServletResponse response, FilterCha
 
     // ===== 후처리 =====
     long endTime = System.currentTimeMillis();
-    System.out.println("[4-1.Filter] - 전체 체인 수행 시간 : " + (endTime - startTime) + "ms");
+    System.out.println("[7-1.Filter] - 전체 체인 수행 시간 : " + (endTime - startTime) + "ms");
 }
 ```
 
@@ -317,14 +317,14 @@ public class InterceptorTestController {
 [1.Filter] StopWatchFilter init - 어플리케이션 시작 시 한 번 호출     ← 서버 시작 시
 httpRequest.getRequestURI() : /stopwatch
 [2.Filter] 전처리 시간 측정
-[Interceptor] preHandle - 컨트롤러 호출 전 !
-[3.Controller] handlerMethod 호출
-[3.Controller] 1초 경과
-[3.Controller] 2초 경과
-[Interceptor] postHandle - 컨트롤러 호출 후, 뷰 랜더링 전 !
-[Interceptor] afterCompletion - 뷰 랜더링 후 !
-[4.Filter] 후처리
-[4-1.Filter] - 전체 체인 수행 시간 : 2010ms
+[3.Interceptor] preHandle - 컨트롤러 호출 전 !
+[4.Controller] handlerMethod 호출
+[4.Controller] 1초 경과
+[4.Controller] 2초 경과
+[5.Interceptor] postHandle - 컨트롤러 호출 후, 뷰 랜더링 전 !
+[6.Interceptor] afterCompletion - 뷰 랜더링 후 !
+[7.Filter] 후처리
+[7-1.Filter] - 전체 체인 수행 시간 : 2010ms
 [99. Filter] destroy - 어플리케이션 종료 시 한 번 호출                 ← 서버 종료 시
 ```
 

@@ -10,13 +10,13 @@ public class StopWatchController {
 
     @GetMapping("/stopwatch")
     public String stopwatch(Model model) throws InterruptedException {
-        System.out.println("[3.Controller] handlerMethod 호출");
+        System.out.println("[4.Controller] handlerMethod 호출");
 
         Thread.sleep(1000);
-        System.out.println("[3.Controller] 1초 경과");
+        System.out.println("[4.Controller] 1초 경과");
 
         Thread.sleep(1000);
-        System.out.println("[3.Controller] 2초 경과");
+        System.out.println("[4.Controller] 2초 경과");
 
         model.addAttribute("수행시간", "2초");
 
