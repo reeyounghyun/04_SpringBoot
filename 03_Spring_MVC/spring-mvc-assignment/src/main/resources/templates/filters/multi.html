@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>문제 6. 필터 여러 개 추가</title>
+</head>
+<body>
+    <!-- 문제 6-7: MultiFilterController가 반환하는 뷰 (filters/multi) -->
+    <h1>문제 6. 필터 여러 개 추가</h1>
+
+    <!-- 컨트롤러에서 Model에 담은 message 값을 출력한다 -->
+    <p th:text="${message}">메시지가 여기에 표시됩니다.</p>
+
+    <!-- 필터 순서(setOrder)에 따라 전처리는 정순, 후처리는 역순으로 실행된다 -->
+    <p><small>콘솔 확인: First 전처리 → Second 전처리 → 컨트롤러 → Second 후처리 → First 후처리</small></p>
+
+    <!-- 요청 차단 확인: 브라우저는 X-Test 헤더를 보내지 않으므로 FirstFilter에서 403으로 막힌다 -->
+    <!-- X-Test 헤더를 넣어 통과시키려면 Postman으로 같은 주소를 요청한다 -->
+    <a href="/filters/multi/block">차단 테스트</a> <small>GET /filters/multi/block · X-Test 헤더 없으면 403</small><br>
+
+    <a href="/filters/multi">다시 요청하기</a> <small>GET /filters/multi</small><br>
+    <a href="/filters/single">필터 1개 실습으로</a> <small>GET /filters/single</small><br>
+    <a href="/">과제 홈으로</a>
+</body>
+</html>

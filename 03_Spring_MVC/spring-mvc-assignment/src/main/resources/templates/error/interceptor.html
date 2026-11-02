@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>문제 7. 인터셉터 예외</title>
+</head>
+<body>
+    <!-- 문제 7-5: GlobalExceptionHandler가 반환하는 뷰 (error/interceptor) -->
+    <!-- 이 화면이 보이면 "인터셉터에서 던진 예외를 @ControllerAdvice가 처리했다"는 뜻이다 -->
+    <h1>인터셉터에서 요청이 거부되었습니다</h1>
+
+    <!-- Model에 담은 exception 객체의 메시지(getMessage())를 출력한다 -->
+    <p th:text="${exception.message}">예외 메시지가 여기에 표시됩니다.</p>
+
+    <!-- @ResponseStatus(HttpStatus.FORBIDDEN) 때문에 상태 코드가 403으로 응답된다 (F12 → Network 탭에서 확인) -->
+    <p><small>콘솔 확인: preHandle → [GlobalExceptionHandler] 인터셉터 예외 처리 (컨트롤러 로그는 찍히지 않음)</small></p>
+
+    <a href="/interceptors/exception?access=granted">access=granted로 다시 요청</a> <small>GET /interceptors/exception?access=granted</small><br>
+    <a href="/">과제 홈으로</a>
+</body>
+</html>

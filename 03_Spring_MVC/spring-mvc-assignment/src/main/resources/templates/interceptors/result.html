@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>문제 7. 인터셉터 결과</title>
+</head>
+<body>
+    <!-- 문제 7-4: InterceptorController가 반환하는 뷰 (interceptors/result) -->
+    <h1>문제 7. 인터셉터 결과</h1>
+
+    <!-- 컨트롤러에서 Model에 담은 message 값을 출력한다 -->
+    <p th:text="${message}">메시지가 여기에 표시됩니다.</p>
+
+    <!-- 문제 7-2 postHandle()에서 ModelAndView에 추가한 interceptorInterval 값을 출력한다 -->
+    <!-- postHandle이 뷰 렌더링 "전"에 실행되기 때문에 화면에서 이 값을 쓸 수 있다 -->
+    <p>인터셉터 수행 시간: <strong th:text="${interceptorInterval}">0</strong> ms</p>
+
+    <!-- 콘솔 로그 순서 확인 -->
+    <p><small>콘솔 확인: preHandle → [InterceptorController] 실행 → postHandle → (뷰 렌더링) → afterCompletion</small></p>
+
+    <a href="/interceptors">다시 요청하기</a> <small>GET /interceptors</small><br>
+    <a href="/interceptors/exception">예외 발생시키기</a> <small>GET /interceptors/exception</small><br>
+    <a href="/">과제 홈으로</a>
+</body>
+</html>
