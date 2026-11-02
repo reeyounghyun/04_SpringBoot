@@ -42,6 +42,7 @@ src/main
     └── error
         ├── nullPointer.html                   # NullPointerException 화면
         ├── memberRegist.html                  # MemberRegistException 화면 (예외 메시지 출력)
+        ├── controller-array.html              # ArrayIndexOutOfBoundsException 화면
         └── default.html                       # 그 외 모든 예외 화면
 ```
 
@@ -53,7 +54,8 @@ src/main
 | `/controller-user` | MemberRegistException | `ExceptionHandlerController` (컨트롤러 레벨) | `error/memberRegist` |
 | `/other-controller-null` | NullPointerException | `GlobalExceptionHandler` (전역) | `error/nullPointer` |
 | `/other-controller-user` | MemberRegistException | `GlobalExceptionHandler` (전역) | `error/memberRegist` |
-| `/other-controller-array` | (미구현) | `GlobalExceptionHandler`의 `Exception` 핸들러 예정 | `error/default` |
+| `/other-controller-array` | ArrayIndexOutOfBoundsException | `GlobalExceptionHandler` (전역) | `error/controller-array` |
+| 그 외 예외 | Exception 하위 예외 | `GlobalExceptionHandler`의 `Exception` 핸들러 (안전망) | `error/default` |
 
 ## 1. @ExceptionHandler - 컨트롤러 레벨
 
@@ -160,7 +162,28 @@ public class GlobalExceptionHandler {
 public String exception(Exception exception) {
     return "error/default";
 }
+
+// 전역 ArrayIndexOutOfBoundsException
+// - Exception 핸들러보다 구체적인 타입이므로 이 메소드가 우선 실행된다.
+@ExceptionHandler(ArrayIndexOutOfBoundsException.class)
+public String arrayIndexOutOfBoundsException(ArrayIndexOutOfBoundsException exception) {
+    return "error/controller-array";
+}
 ```
+
+```java
+// OtherController
+@GetMapping("/other-controller-array")
+public String arrayIndexOutOfBoundsException() {
+    int[] arr = new int[1];
+    System.out.println(arr[1]); // ArrayIndexOutOfBoundsException 발생 (0번만 있음)
+    return "/";
+}
+```
+
+- `ArrayIndexOutOfBoundsException`은 `Exception`의 하위 타입이지만, 더 구체적인 핸들러가 있으므로 그쪽이 실행된다.
+- **같은 예외 타입을 처리하는 핸들러가 2개 있으면** 스프링이 어느 쪽을 쓸지 정하지 못해
+  서버 시작 시 `Ambiguous @ExceptionHandler method mapped for ...` 에러가 난다.
 
 ## 우선순위 규칙
 
@@ -176,5 +199,7 @@ public String exception(Exception exception) {
   `return "error/NullPointer"` ↔ `nullPointer.html`은 Windows에서는 동작해도 jar/Linux에서는 찾지 못한다.
 - **복사한 메소드는 예외 종류까지 바꿨는지 확인한다.**
   NPE를 던지는 코드를 그대로 두면 `MemberRegistException` 핸들러가 아니라 NPE 핸들러가 실행된다.
+  메시지에 `[ArrayIndexOutOfBoundsException]`을 붙여도 실제로 던지는 예외가 바뀌지 않으면 해당 핸들러는 실행되지 않는다.
+- **`@ExceptionHandler`에 같은 예외 타입을 두 번 지정하지 않는다.** (서버 시작 실패)
 - 콘솔 메시지를 컨트롤러/전역 핸들러마다 다르게 두면 **어느 핸들러가 처리했는지** 구분하기 쉽다.
 - 메소드 이름은 소문자로 시작한다. (`MemberRegistExceptionHandler` → `memberRegistExceptionHandler` 권장)
