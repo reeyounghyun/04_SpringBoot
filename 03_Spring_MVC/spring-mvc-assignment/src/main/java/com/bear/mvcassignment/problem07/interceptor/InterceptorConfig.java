@@ -18,7 +18,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
-
     private AccessInterceptor accessInterceptor;
 
     public InterceptorConfig(AccessInterceptor accessInterceptor) {
