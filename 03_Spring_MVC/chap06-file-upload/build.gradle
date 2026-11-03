@@ -6,7 +6,7 @@ plugins {
 
 group = 'org.example'
 version = '0.0.1-SNAPSHOT'
-description = 'chap06-file-uplocad'
+description = 'chap06-file-upload'
 
 java {
     toolchain {

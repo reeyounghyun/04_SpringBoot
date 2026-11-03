@@ -1,4 +1,4 @@
-# chap04_exception-handle
+# chap04-exception-handle
 
 컨트롤러에서 발생한 **예외를 처리하는 방법**을 비교하는 실습.
 같은 예외(NullPointerException, 사용자 정의 예외)를 `@ExceptionHandler`로 **컨트롤러 레벨**에서,
