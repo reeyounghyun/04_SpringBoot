@@ -1,7 +1,15 @@
 spring:
   application:
-    name: chap06-file-uplocad
+    name: chap06-file-upload
   servlet:
-    multipart:
-      max-file-size: 10MB     # 파일 1개당 최대 크기
+    multipart: # 파일 업로드 설정
+      max-file-size: 10MB    # 파일 1개당 최대 크기
       max-request-size: 10MB  # 요청 전체(파일 여러 개 합계) 최대 크기
+
+# 사용자 정의 변수
+file:
+  upload:
+    windows:
+      path: C:/Users/이영현/04_SprinbBoot/03_Spring_MVC/chap06-file-uplocad/uploadedFiles
+    mac:
+      path: /Users/Shared/chap06-file-upload/uploadedFiles
