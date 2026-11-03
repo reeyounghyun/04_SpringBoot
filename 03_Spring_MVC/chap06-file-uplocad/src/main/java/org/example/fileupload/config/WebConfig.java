@@ -42,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         // 실제 업로드된 파일에 접근할 URL 패턴과
         // 실제 파일 시스템의 경로 매핑
-
+        // "file:///C:/Users/이영현/04_SprinbBoot/03_Spring_MVC/chap06-file-uplocad/uploadedFiles/img/single/" + savedName
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:///"+uploadPath +"/");
     }

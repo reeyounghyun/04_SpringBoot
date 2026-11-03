@@ -11,6 +11,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+/*
+* [External] 외부폴더 저장 방식
+* - 업로드 파일을 application.yaml에 설정한 외부 경로(file.upload.windows/mac.path)에 저장
+* - 요청 주소 : /external-single-file
+* - 이미지 주소 : /uploads/img/single/파일명 (WebConfig의 addResourceHandlers로 실제 폴더와 연결)
+* - 해결 : 빌드폴더와 상관없이 저장되므로 재시작 없이 바로 이미지를 볼 수 있다
+* */
 @Controller
 public class ExternalFileUploadController {
 

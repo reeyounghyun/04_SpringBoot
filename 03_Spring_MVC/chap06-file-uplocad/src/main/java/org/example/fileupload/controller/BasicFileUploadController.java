@@ -12,6 +12,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/*
+* [Basic] 기본 파일 업로드 방식
+* - 업로드 파일을 프로젝트 실행 위치의 uploads 폴더에 원본 파일명 그대로 저장
+* - 요청 주소 : /basic-file-upload
+* - 결과를 main.html에 바로 보여줌 (redirect 없이 model 사용)
+* - 문제점 : 경로가 코드에 고정, 같은 파일명 덮어쓰기, 브라우저에서 조회 불가 (아래 주석 참고)
+* */
 @Controller
 public class BasicFileUploadController {
 

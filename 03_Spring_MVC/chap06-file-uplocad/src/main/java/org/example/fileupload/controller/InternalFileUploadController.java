@@ -13,6 +13,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+/*
+* [Internal] 빌드폴더 내부 저장 방식
+* - 업로드 파일을 프로젝트 안 static/uploadedFiles 폴더에 저장
+* - 요청 주소 : /single-file
+* - 이미지 주소 : /uploadedFiles/img/single/파일명
+* - 문제점 : 서버가 읽는 건 빌드폴더라서, 재시작해야 새 이미지가 보일 수 있다
+* */
 @Controller
 public class InternalFileUploadController {
 
