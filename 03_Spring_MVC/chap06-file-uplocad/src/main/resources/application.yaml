@@ -1,3 +1,7 @@
 spring:
   application:
     name: chap06-file-uplocad
+  servlet:
+    multipart:
+      max-file-size: 10MB     # 파일 1개당 최대 크기
+      max-request-size: 10MB  # 요청 전체(파일 여러 개 합계) 최대 크기
