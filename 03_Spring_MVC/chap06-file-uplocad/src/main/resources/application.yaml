@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: chap06-file-uplocad

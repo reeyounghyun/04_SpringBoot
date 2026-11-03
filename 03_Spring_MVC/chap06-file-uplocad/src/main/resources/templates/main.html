@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+    <h1>기본 파일 업로드</h1>
+    <form action="/basic-file-upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">업로드</button>
+    </form>
+
+
+    <div th:if="${message != null}">  <!--message 값이 있을 때만 이 <div>를 화면에 보여주는 조건입니다.-->
+        <h2 th:text="${message}"></h2>
+        <p>원본 파일명: <span th:text="${originalFileName}"></span></p>
+        <p>저장 경로: <span th:text="${savedPath}"></span></p>
+    </div>
+
+</body>
+</html>
