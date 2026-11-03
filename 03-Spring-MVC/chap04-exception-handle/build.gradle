@@ -6,7 +6,7 @@ plugins {
 
 group = 'org.example'
 version = '0.0.1-SNAPSHOT'
-description = 'chap04_exception-handle'
+description = 'chap04-exception-handle'
 
 java {
     toolchain {

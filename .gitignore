@@ -13,3 +13,6 @@ bin/
 
 ### OS ###
 .DS_Store
+
+### Build output ###
+out/
