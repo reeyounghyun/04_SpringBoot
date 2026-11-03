@@ -38,6 +38,7 @@ public class InternalFileUploadController {
         this.resourceLoader = resourceLoader;
     }
 
+    // 요청 주소
     @PostMapping("single-file")
     public String singleFileUpload(
             @RequestParam MultipartFile singleFile,
