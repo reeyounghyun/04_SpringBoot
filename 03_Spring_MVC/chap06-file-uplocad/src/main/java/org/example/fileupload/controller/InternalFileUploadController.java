@@ -50,7 +50,7 @@ public class InternalFileUploadController {
 
         singleFile.transferTo(new File(filePath, savedName));  // 객체 셩성(파일패스, 파일명)
         redirectAttributes.addFlashAttribute("message", "단일 파일 업로드 성공!");  // redirectAttributes 경로에
-        redirectAttributes.addFlashAttribute("img", "/static/uploadedFiles/img/single/" + savedName);  // redirectAttributes 경로에
+        redirectAttributes.addFlashAttribute("img", "/uploadedFiles/img/single/" + savedName);  // redirectAttributes 경로에
         redirectAttributes.addFlashAttribute("singleFileDescription", singleFileDescription);  // redirectAttributes 경로에
         return "redirect:/result";
     }
