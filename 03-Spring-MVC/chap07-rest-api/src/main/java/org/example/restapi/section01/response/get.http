@@ -1,0 +1,20 @@
+### 문자열 응답 hello
+GET http://localhost:8080/response/hello
+
+### 기본자료형 응답 random
+GET http://localhost:8080/response/random
+
+### Object 응답 message
+GET http://localhost:8080/response/message
+
+### List 응답 list
+GET http://localhost:8080/response/list
+
+### Map 응답 map
+GET http://localhost:8080/response/map
+
+### 이미지 응답 image
+GET http://localhost:8080/response/image
+
+### ResponseEntity 응답 entity
+GET http://localhost:8080/response/entity
