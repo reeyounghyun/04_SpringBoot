@@ -1,6 +1,6 @@
 package org.example.restapi.section02.responseentity;
 
-import org.apache.catalina.connector.Response;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
