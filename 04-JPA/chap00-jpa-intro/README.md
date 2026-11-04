@@ -57,9 +57,15 @@ logging:
 
 | 메서드 | URL | 설명 |
 |---|---|---|
-| GET | `/api/menus` | 메뉴 전체 조회 |
-| POST | `/api/menus` | 메뉴 등록 |
-| PUT | `/api/menus/{menuCode}` | 메뉴 수정 (없는 번호면 404) |
+| GET | `/api/menus` | 메뉴 전체 조회 (`findAll`) |
+| GET | `/api/menus/{menuCode}` | 메뉴 단건 조회, 없으면 404 (`findById`) |
+| GET | `/api/menus/search?keyword=찌개` | 이름 부분 검색 (`findByMenuNameContaining`) |
+| GET | `/api/menus/count` | 전체 메뉴 개수 (`count`) |
+| GET | `/api/menus/exists?price=10000` | 해당 가격보다 비싼 메뉴 존재 여부 (`existsByMenuPriceGreaterThan`) |
+| POST | `/api/menus` | 메뉴 등록 (`save`) |
+| PUT | `/api/menus/{menuCode}` | 메뉴 수정, 없으면 404 (변경 감지) |
+| DELETE | `/api/menus/{menuCode}` | 번호로 삭제, 없으면 404 / 성공 시 204 (`existsById` + `deleteById`) |
+| DELETE | `/api/menus?menuName=김치찌개` | 이름으로 삭제, 204 (`deleteByMenuName`) |
 
 등록 요청 예시 (`menuCode` 는 DB 가 자동 생성하므로 보내지 않는다)
 
@@ -140,3 +146,17 @@ org.example.jpaintro
 - SQL 로그 : `org.hibernate.SQL: debug` + `format_sql: true` → 실행된 SQL 확인, `org.hibernate.orm.jdbc.bind: trace` → `?` 에 들어간 값 확인
 - Swagger : `SwaggerConfig` 에서 `OpenAPI` 빈으로 문서 제목/설명/버전 설정
 - DB 비밀번호가 담긴 `application.yaml` 은 `.gitignore` 로 저장소에서 제외
+
+### 8. Spring Data JPA — Repository 활용
+- **Spring Data JPA** = Spring Data 의 하위 모듈. `EntityManager` 를 직접 만들고 닫지 않아도 스프링이 관리해준다.
+- `spring-boot-starter-data-jpa` 하나로 Spring Data JPA + JPA + Hibernate 가 자동 설정됨
+- **상속 구조** : `Repository`(마커) → `CrudRepository`(기본 CRUD) / `PagingAndSortingRepository`(페이징·정렬) → ⭐ `JpaRepository`(+ `flush`, `saveAndFlush`, `deleteAllInBatch`, `getReferenceById`)
+- **자동 구현 원리** : 실행 시 `JpaRepositoryFactory` 가 인터페이스의 **프록시 객체**를 만들어 빈으로 등록 → 실제 로직은 `SimpleJpaRepository` 가 수행, 메서드 이름 해석은 `QueryLookupStrategy`
+- **기본 제공 메서드** 사용 : `findById()`(Optional 반환), `existsById()`, `deleteById()`(대상이 없으면 아무것도 안 함 → 그래서 먼저 `existsById` 로 확인 후 404), `count()`
+- **쿼리 메서드** (메서드 이름만으로 쿼리 생성)
+  - `findByMenuNameContaining(keyword)` → `like '%keyword%'`
+  - `existsByMenuPriceGreaterThan(price)` → 조건에 맞는 행 존재 여부
+  - `deleteByMenuName(name)` → 직접 선언한 삭제 메서드는 트랜잭션이 자동 적용되지 않으므로 Service 에 `@Transactional` 필수
+- **save() 동작** : ID 유무가 아니라 **새 엔티티인지** 판정해서 `persist()` / `merge()` 선택 → 반환값을 사용
+- **Optional 처리** : `orElse` / `orElseGet` / `orElseThrow` / `ifPresent`
+- **트랜잭션** : `MenuService` 클래스에 `@Transactional(readOnly = true)` 기본 적용, 변경 메서드(create/update/delete)에만 `@Transactional` 따로 지정

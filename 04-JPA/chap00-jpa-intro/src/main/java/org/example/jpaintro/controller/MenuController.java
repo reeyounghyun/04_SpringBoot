@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.jpaintro.dto.MenuRequestDTO;
 import org.example.jpaintro.dto.MenuResponseDTO;
 import org.example.jpaintro.service.MenuService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,8 +41,47 @@ public class MenuController {
         return menuService.create(menuRequestDTO);
     }
 
+    // 단건 조회 (없으면 404)
+    @GetMapping("/{menuCode}")
+    public MenuResponseDTO findById(@PathVariable Integer menuCode) {
+        return menuService.findById(menuCode);
+    }
+
+    // 이름 부분 검색 : /api/menus/search?keyword=찌개
+    @GetMapping("/search")
+    public List<MenuResponseDTO> search(@RequestParam String keyword) {
+        return menuService.searchByName(keyword);
+    }
+
+    // 전체 메뉴 개수
+    @GetMapping("/count")
+    public long count() {
+        return menuService.count();
+    }
+
+    // 특정 가격보다 비싼 메뉴 존재 여부 : /api/menus/exists?price=10000
+    @GetMapping("/exists")
+    public boolean existsPriceGreaterThan(@RequestParam int price) {
+        return menuService.existsPriceGreaterThan(price);
+    }
+
+    // 메뉴 수정 (없으면 404)
     @PutMapping("/{menuCode}")
     public MenuResponseDTO update(@PathVariable Integer menuCode, @RequestBody MenuRequestDTO menuRequestDTO) {
         return menuService.update(menuCode, menuRequestDTO);
+    }
+
+    // 번호로 삭제 (없으면 404, 성공하면 204 No Content)
+    @DeleteMapping("/{menuCode}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Integer menuCode) {
+        menuService.delete(menuCode);
+    }
+
+    // 이름으로 삭제 : DELETE /api/menus?menuName=김치찌개
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteByName(@RequestParam String menuName) {
+        menuService.deleteByName(menuName);
     }
 }
