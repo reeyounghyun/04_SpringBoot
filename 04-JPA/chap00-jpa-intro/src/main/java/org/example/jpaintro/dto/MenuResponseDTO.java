@@ -1,5 +1,11 @@
 package org.example.jpaintro.dto;
 
+import org.example.jpaintro.entity.Menu;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * [DTO] 서버 → 클라이언트 로 "나가는" 데이터
  *
@@ -10,5 +16,28 @@ package org.example.jpaintro.dto;
  *
  * 흐름: DB → Menu(Entity) → (Service 에서 변환) → MenuResponseDTO → [JSON]
  */
+// 응답전용 DTO
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MenuResponseDTO {
+
+    private Integer menuCode;
+    private String menuName;
+    private Integer menuPrice;
+    private Integer categoryCode;
+    private String orderableStatus;
+
+    // Entity(Menu) → 응답 DTO 로 변환하는 정적 팩토리 메서드
+    // Menu 클래스를 MenuResponseDTO로 변환시키는 팩토리 메서드
+    public static MenuResponseDTO from(Menu menu) {
+        return new MenuResponseDTO(
+                menu.getMenuCode(),
+                menu.getMenuName(),
+                menu.getMenuPrice(),
+                menu.getCategoryCode(),
+                menu.getOrderableStatus()
+        );
+    }
 }

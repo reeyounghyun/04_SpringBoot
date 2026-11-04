@@ -1,5 +1,7 @@
 package org.example.jpaintro.dto;
 
+import lombok.*;
+
 /**
  * [DTO] 클라이언트 → 서버 로 "들어오는" 데이터
  *
@@ -11,5 +13,17 @@ package org.example.jpaintro.dto;
  *
  * 흐름: [JSON] → MenuRequestDTO → (Service 에서 변환) → Menu(Entity) → DB
  */
+@Getter             // 모든 필드의 getter 생성
+@Setter             // 모든 필드의 setter 생성
+@ToString           // toString() 생성 (객체 내용 출력용)
+@AllArgsConstructor // 모든 필드를 받는 생성자 생성
+@NoArgsConstructor  // 기본 생성자 생성 (JSON → 객체 변환 시 필요)
+
+// 요청 전용 DTO
 public class MenuRequestDTO {
+
+    private String menuName;
+    private Integer menuPrice;
+    private Integer categoryCode;
+    private String orderableStatus;
 }
