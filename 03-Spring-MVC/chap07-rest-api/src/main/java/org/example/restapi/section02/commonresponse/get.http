@@ -1,0 +1,14 @@
+### 공통응답(제네닉) 전체조회
+GET http://localhost:8080/common-response/users
+
+<> 2026-11-04T101322.200.json
+
+### 공통응답(제네닉) 단건조회
+GET http://localhost:8080/common-response/users/1
+
+<> 2026-11-04T101326.200.json
+
+### 공통응답(제넥릭) 반환데이터가 없는경우
+GET http://localhost:8080/common-response/health
+
+<> 2026-11-04T101328.200.json
