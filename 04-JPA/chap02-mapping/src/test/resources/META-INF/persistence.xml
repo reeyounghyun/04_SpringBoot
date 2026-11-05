@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+             version="3.2">
+
+    <!--
+    - 엔티티 매니저 팩토리를 식별하기 위한 이름 설정 : 어떤 설정 묶음을 쓸지 이름으로 찾는다
+    -  createEntityManagerFactory("jpatest")로 이 설정을 찾아서 읽어오기 위한 이름
+
+    -->
+    <persistence-unit name="jpatest">
+
+        <!--
+        - 엔티티 클래스를 정의
+        - JPA가 관리할 엔티티 클래스 등록 (@Entity가 붙은 클래스)
+         com.practice 패키지 이름 + Menu 클래스 이름
+         <class>com.practice.Menu</class>
+         -->
+
+
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="1234"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/menudb"/>
+            <!-- hibernate 설정 (JPA에 의해 실행되는 SQL 구문을 콘솔에 보여준다) -->
+            <property name="hibernate.show_sql" value="true"/>
+            <!-- SQL 구문을 개행처리해서 보기좋게 출력 -->
+            <property name="hibernate.format_sql" value="true"/>
+            <!-- SQL 구문에 색상을 입혀서 출력 (키워드 강조) -->
+            <property name="hibernate.highlight_sql" value="true"/>
+        </properties>
+
+    </persistence-unit>
+
+    <!-- A_EntityManagerLifeCycleTests 에서 "jpabook" 이름을 사용하므로 같은 설정을 하나 더 둠 -->
+    <persistence-unit name="jpabook">
+        <!--
+      - 엔티티 클래스를 정의
+      - JPA가 관리할 엔티티 클래스 등록 (@Entity가 붙은 클래스)
+       com.practice 패키지 이름 + Menu 클래스 이름
+       -->
+        <class>com.section01.entity.Member</class>
+
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="1234"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/menudb"/>
+
+            <!--hibernate 설정 (JPA에 의해 실행되는 SQL 구문을 콘솔에 보여준다-->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.highlight_sql" value="true"/>
+            <!--
+            엔티티 클래스를 기준으로 Hibernate가 DDL (테이블 생성/ 삭제) 를 자동을 수행하는 설정
+            -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
