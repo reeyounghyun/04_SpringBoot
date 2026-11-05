@@ -8,8 +8,8 @@ import java.util.Date;
 /*
 * Entity : 데이터 테이블과 매핑되는 자바 클래스
 * */
-@Entity(name="member_section02") // 수정: member_section01 → member_section02 (section01의 Member와 엔티티 이름 중복 방지)
-@Table(name="tbl_member_section02") // 매핑될 테이블 작성 (수정: tbl_menu → tbl_member_section02)
+@Entity(name="member_section02")
+@Table(name="tbl_member_section02")
 @Getter
 @Setter
 @NoArgsConstructor
