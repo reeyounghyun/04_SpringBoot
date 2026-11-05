@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class A_EntityManagerCRUDTest {
 
-    //EntityManagerFactory 가 "싱글톤" 한개 만들어놓고 재사용 하겠다.
-    private static EntityManagerFactory entityManagerFactory;
-    private EntityManager entityManager;
+    //entityManagerFactory 가 "싱글톤" 한개 만들어놓고 재사용 하겠다.
+    private static EntityManagerFactory entityManagerFactory; // 필드, 클래스 전체에 하나만 있음.
+    private EntityManager entityManager;  // 인스턴스 필드로 테스트 객체마다 따로 있음
 
     /*
      @BeforeAll
@@ -44,11 +44,14 @@ public class A_EntityManagerCRUDTest {
 
     // 전체 3번 동작
 
+    // 전체 끝난 뒤에 1번 동작,  마지막 다섯번째로 동작함
     @AfterAll
     public static void closeFactory() {
         entityManagerFactory.close();
     } // 동작 5
 
+
+    // 테스트 후에 동작.  네번째로 동작함
     @AfterEach
     public void closeManager() {
         entityManager.close();
@@ -146,7 +149,6 @@ public class A_EntityManagerCRUDTest {
         *
         * */
         try {
-
             menuToChange.setMenuName(menuNameToChange);
 
             entityTransaction.commit();
@@ -171,8 +173,7 @@ public class A_EntityManagerCRUDTest {
         entityTransaction.begin(); // 트랜잭션 시작
 
         try {
-
-            entityManager.remove(menuToRemove); // 영속상태의 시작(삭제)
+            entityManager.remove(menuToRemove); // 영속 상태에서 삭제 상태로 변경
             entityTransaction.commit(); // 삭제된 상태에서 데이터베이스에서 제거 구문 작성 및 전송
         } catch (Exception e) {
             entityTransaction.rollback();

@@ -75,7 +75,7 @@ public class Menu {
 
     @Override
     public String toString() {
-        return "MenuCopy{" +
+        return "Menu{" +
                 "menuCode=" + menuCode +
                 ", menuName='" + menuName + '\'' +
                 ", menuPrice=" + menuPrice +
