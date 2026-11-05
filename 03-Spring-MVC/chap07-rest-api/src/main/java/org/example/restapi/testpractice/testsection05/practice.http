@@ -1,0 +1,45 @@
+### 회원 전체 조회 → 200
+GET http://localhost:8080/practice/swagger/members
+
+### 회원 상세 조회 → 200
+GET http://localhost:8080/practice/swagger/members/1
+
+### [문제 4-1] 없는 회원 조회 → 404
+GET http://localhost:8080/practice/swagger/members/99
+
+### [문제 5] 회원 등록 → 201 + Location 헤더 확인
+POST http://localhost:8080/practice/swagger/members
+Content-Type: application/json
+
+{
+  "id": "member04",
+  "name": "강감찬",
+  "email": "kang@test.com"
+}
+
+### [문제 5] Location 헤더 주소로 조회 → 방금 등록한 회원
+GET http://localhost:8080/practice/swagger/members/4
+
+### 회원 정보 수정 → 200
+PUT http://localhost:8080/practice/swagger/members/1
+Content-Type: application/json
+
+{
+  "name": "홍길순",
+  "email": "hong2@test.com"
+}
+
+### [문제 4-2] 없는 회원 수정 → 404
+PUT http://localhost:8080/practice/swagger/members/99
+Content-Type: application/json
+
+{
+  "name": "아무개",
+  "email": "nobody@test.com"
+}
+
+### 회원 삭제 → 204
+DELETE http://localhost:8080/practice/swagger/members/2
+
+### [문제 4-3] 없는 회원 삭제 → 404
+DELETE http://localhost:8080/practice/swagger/members/99

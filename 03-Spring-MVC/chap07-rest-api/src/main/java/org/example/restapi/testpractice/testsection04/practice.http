@@ -1,0 +1,14 @@
+### [문제 1, 2] 전체 조회 → 각 도서에 self, books 링크
+GET http://localhost:8080/practice/hateoas/books
+
+### [문제 4] 단건 조회 → self, books 링크
+GET http://localhost:8080/practice/hateoas/books/1
+
+### [문제 3] 없는 도서 → 404
+GET http://localhost:8080/practice/hateoas/books/99
+
+### [보너스 1] 마지막 도서 → next 링크 없음
+GET http://localhost:8080/practice/hateoas/books/3
+
+### [보너스 2] 저자별 조회
+GET http://localhost:8080/practice/hateoas/books/search?author=김영한

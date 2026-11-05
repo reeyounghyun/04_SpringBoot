@@ -1,0 +1,104 @@
+### ===================== Part A. Validation =====================
+
+### [성공] 정상 등록 → 200
+POST http://localhost:8080/practice/valid/products
+Content-Type: application/json
+
+{
+  "productCode": "P-0001",
+  "name": "기계식 키보드",
+  "price": 89000,
+  "releaseDate": "2026-01-15"
+}
+
+### [실패] 상품코드 형식 오류 → 400 productCode
+POST http://localhost:8080/practice/valid/products
+Content-Type: application/json
+
+{
+  "productCode": "A-12",
+  "name": "기계식 키보드",
+  "price": 89000,
+  "releaseDate": "2026-01-15"
+}
+
+### [실패] 상품명 공백 → 400 name
+POST http://localhost:8080/practice/valid/products
+Content-Type: application/json
+
+{
+  "productCode": "P-0001",
+  "name": "   ",
+  "price": 89000,
+  "releaseDate": "2026-01-15"
+}
+
+### [실패] 가격 미입력 → 400 price
+POST http://localhost:8080/practice/valid/products
+Content-Type: application/json
+
+{
+  "productCode": "P-0001",
+  "name": "기계식 키보드",
+  "releaseDate": "2026-01-15"
+}
+
+### [실패] 가격 너무 낮음 → 400 price
+POST http://localhost:8080/practice/valid/products
+Content-Type: application/json
+
+{
+  "productCode": "P-0001",
+  "name": "기계식 키보드",
+  "price": 50,
+  "releaseDate": "2026-01-15"
+}
+
+### [실패] 출시일이 미래 → 400 releaseDate
+POST http://localhost:8080/practice/valid/products
+Content-Type: application/json
+
+{
+  "productCode": "P-0001",
+  "name": "기계식 키보드",
+  "price": 89000,
+  "releaseDate": "2099-12-31"
+}
+
+### [보너스] 여러 개 동시 실패 → 400 (전부 보여야 함)
+POST http://localhost:8080/practice/valid/products
+Content-Type: application/json
+
+{
+  "productCode": "X",
+  "name": "가",
+  "price": 99999999,
+  "releaseDate": "2099-12-31"
+}
+
+
+### ===================== Part B. Enum 예외 처리 =====================
+
+### [성공] 상품 조회 → 200
+GET http://localhost:8080/practice/enum-errors/products/1
+
+### [실패] 상품번호 0 → 400 INVALID_PRODUCT_NO
+GET http://localhost:8080/practice/enum-errors/products/0
+
+### [실패] 없는 상품 → 404 PRODUCT_NOT_FOUND
+GET http://localhost:8080/practice/enum-errors/products/99
+
+### [성공] 키보드 3개 주문 → 200
+POST http://localhost:8080/practice/enum-errors/products/1/order?quantity=3
+
+### [실패] 없는 상품 주문 → 404 PRODUCT_NOT_FOUND
+POST http://localhost:8080/practice/enum-errors/products/99/order?quantity=1
+
+### [실패] 수량 0 → 400 INVALID_QUANTITY
+POST http://localhost:8080/practice/enum-errors/products/1/order?quantity=0
+
+### [실패] 품절 상품(마우스) → 409 OUT_OF_STOCK
+POST http://localhost:8080/practice/enum-errors/products/2/order?quantity=1
+
+### [실패] 재고보다 많이 주문 → 409 OUT_OF_STOCK
+POST http://localhost:8080/practice/enum-errors/products/3/order?quantity=6
