@@ -10,12 +10,11 @@ import java.util.Date;
 * */
 @Entity(name="member_section03")
 @Table(name="tbl_member_section03") // 매핑될 테이블 작성
-//@Getter
 @Setter
+@Access(AccessType.FIELD) // JPA 가 엔티티의 값을 어디를 통해 쓸지
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-
 public class Member {
     @Id
     @Column(name="member_no")
@@ -24,8 +23,7 @@ public class Member {
     * Table : 키생성 전용 테이블 -> 기본 키값을 관리
     * AUTO : DB에 맞는 전략을 자동으로 선택
     * */
-    @Access(AccessType.FIELD)
-    @GeneratedValue(strategy = GenerationType.TABLE)
+   // @GeneratedValue(strategy = GenerationType.TABLE)
     private int memberNo;
 
     @Column(name="member_id")
@@ -54,4 +52,22 @@ public class Member {
 
     @Column(name="status")
     private String status;
+
+    /*
+    * @Access(AccessType.FIELD)라서 JPA는 이 getter를 쓰지 않고 필드에 직접 접근합니다.
+    * 그래서 DB에는 "getter에서 동작함..."이 붙지 않은 원래 값이 저장돼요.
+    * 이 getter는 필드 접근과 프로퍼티 접근의 차이를 확인하려는 예제로 보입니다.
+    * */
+    public String getMemberId() {
+        return "getter에서 동작함..." + memberId;
+    }
+
+    public String getMemberPwd() {
+        return "getter에서 동작함..." + memberPwd;
+    }
+
+    public String getNickname() {
+        return "getter에서 동작함..." + nickname;
+    }
+
 }
