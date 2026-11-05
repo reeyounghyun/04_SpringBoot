@@ -1,11 +1,11 @@
 package com.practice;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
 public class Demo {
-
     private static EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
 
@@ -26,4 +26,6 @@ public class Demo {
     public void closeManager() {
         entityManager.close();
     }
+
+
 }
