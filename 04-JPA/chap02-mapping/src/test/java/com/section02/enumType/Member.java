@@ -43,8 +43,8 @@ public class Member {
     private Date enrollDate;
 
     @Column(name="member_role")
-    @Enumerated(EnumType.ORDINAL)
-//    @Enumerated(EnumType.STRING)
+   // @Enumerated(EnumType.ORDINAL) // enum에 선언된 '순서' 1이 저장됨 (ADMIN=0 / MEMBER=1)
+    @Enumerated(EnumType.STRING)
     private RoleType memberRole;
 
     @Column(name="status")
