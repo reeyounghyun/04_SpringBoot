@@ -11,7 +11,20 @@ import java.util.Date;
 @Entity(name="member_section03")
 @Table(name="tbl_member_section03") // 매핑될 테이블 작성
 @Setter
-@Access(AccessType.FIELD) // JPA 가 엔티티의 값을 어디를 통해 쓸지
+
+/*
+* ID가 필드에 있으면 -> FIELD
+* ID가 Getter에 있으면 -> PROPERTY
+* 지금은 @Id가 memberNo 필드에 있어서 @Access를 빼도 FIELD로 동작한다.
+* */
+@Access(AccessType.FIELD)
+//JPA가 엔티티의 값을 필드를 통해 접근한다. (기본값 FIELD)
+// JPA가 엔티티의 값을 필드에 직접 접근해서 읽고 씀 (@Id가 필드에 있으면 기본이 FIELD)
+
+// @Access(AccessType.PROPERTY)
+// JPA가 엔티티의 값을 필드에 직접 접근해서 읽고 씀
+// @Access(AccessType.PROPERTY) // JPA가 엔티티의 값을 getter/setter를 통해 읽고 씀
+
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString

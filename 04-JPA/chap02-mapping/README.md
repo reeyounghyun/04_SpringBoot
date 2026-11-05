@@ -341,6 +341,7 @@ public class Member {
   → DB 에는 `user01` 이 저장된다.
 - 만약 **프로퍼티 접근**으로 바꾸면 JPA가 getter 를 호출하므로 `getter에서 동작함...user01` 이 저장된다.
   이 차이를 확인하는 것이 이 섹션의 목적이다.
+- 단, `@Access(AccessType.PROPERTY)` 한 줄만 바꾸면 안 된다. `@Id` · `@Column` 을 getter 위로 옮기고, 모든 컬럼에 getter 가 있어야 한다. (그대로 두면 매핑 오류가 날 수 있다)
 
 ### 8-3. 테스트
 
