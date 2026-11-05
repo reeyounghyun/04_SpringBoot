@@ -6,7 +6,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
-import java.util.Date;
+import java.util.Date; // 수정: java.sql.Date → java.util.Date (java.sql.Date는 new Date() 기본 생성자가 없어 컴파일 오류)
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -13,7 +13,7 @@ import java.util.Date;
 * Entity : 데이터 테이블과 매핑되는 자바 클래스
 * */
 @Entity(name="member_section01")
-@Table(name="tbl_member_section01") // 매핑될 테이블 작성
+@Table(name="tbl_member_section01") // 매핑될 테이블 작성 (수정: tbl_menu → tbl_member_section01, 기존 tbl_menu 테이블이 drop되지 않도록)
 @Getter
 @Setter
 @NoArgsConstructor
