@@ -156,7 +156,7 @@ public class A_EntityManagerCRUDTest {
         }
 
         // 같으면 패스 아니면?
-        // 테스트 성동
+        // 테스트 성공
         assertEquals(menuNameToChange, entityManager.find(Menu.class, 2).getMenuName());
 
     }
@@ -168,12 +168,12 @@ public class A_EntityManagerCRUDTest {
         Menu menuToRemove = entityManager.find(Menu.class, 1);
 
         EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin(); // 트렌직션 시작
+        entityTransaction.begin(); // 트랜잭션 시작
 
         try {
 
             entityManager.remove(menuToRemove); // 영속상태의 시작(삭제)
-            entityTransaction.commit(); // 삭제된 상태에서 데이터베이스에서 제거 구문 작성 밎 전송
+            entityTransaction.commit(); // 삭제된 상태에서 데이터베이스에서 제거 구문 작성 및 전송
         } catch (Exception e) {
             entityTransaction.rollback();
             e.printStackTrace();
