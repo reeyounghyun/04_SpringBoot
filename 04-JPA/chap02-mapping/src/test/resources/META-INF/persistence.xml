@@ -47,6 +47,7 @@
        -->
         <class>com.section01.entity.Member</class>
         <class>com.section02.enumType.Member</class>
+        <class>com.section03.field.Member</class>
 
         <properties>
 
