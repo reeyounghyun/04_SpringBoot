@@ -22,6 +22,10 @@
         <class>com.section02.enumType.Member</class>
         <class>com.section03.field.Member</class>
 
+        <class>com.practice.ColumnMember</class>
+        <class>com.practice.IdentityMember</class>
+        <class>com.practice.EnumMember</class>
+
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
@@ -50,8 +54,11 @@
         <class>com.section02.enumType.Member</class>
         <class>com.section03.field.Member</class>
 
-        <properties>
+        <class>com.practice.ColumnMember</class>
+        <class>com.practice.IdentityMember</class>
+        <class>com.practice.EnumMember</class>
 
+        <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value="1234"/>
