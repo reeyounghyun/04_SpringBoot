@@ -31,7 +31,6 @@ public class MenuController {
     @GetMapping
     public List<MenuResponseDTO> findAll() {
         return menuService.findAll();
-
     }
 
     // 메뉴 저장

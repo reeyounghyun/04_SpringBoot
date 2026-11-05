@@ -1,0 +1,77 @@
+### [문제 4] 전체 조회
+GET http://localhost:8080/api/categories
+
+### [문제 5] 단건 조회 - 성공 (200)
+GET http://localhost:8080/api/categories/1
+
+### [문제 5] 단건 조회 - 없는 번호 (404)
+GET http://localhost:8080/api/categories/9999
+
+### [문제 6] 등록 - 하위 카테고리 (응답의 categoryCode 를 아래 요청들에 사용)
+POST http://localhost:8080/api/categories
+Content-Type: application/json
+
+{
+  "categoryName": "디저트",
+  "refCategoryCode": 2
+}
+
+### [문제 6] 등록 - 최상위 카테고리 (refCategoryCode = null)
+POST http://localhost:8080/api/categories
+Content-Type: application/json
+
+{
+  "categoryName": "시즌메뉴",
+  "refCategoryCode": null
+}
+
+### [문제 7] 수정 - 성공 (13 을 [문제 6] 에서 받은 번호로 바꾸세요) → 콘솔에 UPDATE SQL 확인
+PUT http://localhost:8080/api/categories/13
+Content-Type: application/json
+
+{
+  "categoryName": "디저트&음료",
+  "refCategoryCode": 2
+}
+
+### [문제 7] 수정 - 없는 번호 (404)
+PUT http://localhost:8080/api/categories/9999
+Content-Type: application/json
+
+{
+  "categoryName": "없는카테고리",
+  "refCategoryCode": null
+}
+
+### [문제 8] 삭제 - 성공 (13 을 [문제 6] 에서 받은 번호로 바꾸세요)
+DELETE http://localhost:8080/api/categories/13
+
+### [문제 8] 삭제 - 없는 번호 (404)
+DELETE http://localhost:8080/api/categories/9999
+
+### [문제 9-1] 이름 검색
+GET http://localhost:8080/api/categories/search?keyword=식
+
+### [문제 9-2] 하위 카테고리 조회 (1번의 하위)
+GET http://localhost:8080/api/categories/1/children
+
+### [문제 9-3] 최상위 카테고리 조회
+GET http://localhost:8080/api/categories/roots
+
+### [보너스 2] 존재하지 않는 상위 카테고리로 등록 (400)
+POST http://localhost:8080/api/categories
+Content-Type: application/json
+
+{
+  "categoryName": "고아카테고리",
+  "refCategoryCode": 9999
+}
+
+### [보너스 3] 자기 자신을 상위로 지정 (400)
+PUT http://localhost:8080/api/categories/13
+Content-Type: application/json
+
+{
+  "categoryName": "디저트",
+  "refCategoryCode": 13
+}
