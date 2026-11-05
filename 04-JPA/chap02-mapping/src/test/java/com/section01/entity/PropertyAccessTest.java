@@ -40,6 +40,8 @@ public class PropertyAccessTest {
         // when
         entityManager.persist(member); // 영속 상태
 
+        // 그러나 데이터베이스는 만들어짐 -> 앤티티 메니저 팩토리가 만들어질때,
+        // 이 시점에 create table이 실행되어 커밋까지 끝나 롤백이 되지 않는다.
 
         Member foundMember = entityManager.find(Member.class, member.getMemberNo());
         Assertions.assertEquals(member.getMemberId(), foundMember.getMemberId());

@@ -17,7 +17,8 @@
          com.practice 패키지 이름 + Menu 클래스 이름
          <class>com.practice.Menu</class>
          -->
-
+        <class>com.section01.entity.Member</class>
+        <class>com.section02.enumType.Member</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
@@ -30,6 +31,8 @@
             <property name="hibernate.format_sql" value="true"/>
             <!-- SQL 구문에 색상을 입혀서 출력 (키워드 강조) -->
             <property name="hibernate.highlight_sql" value="true"/>
+            <!-- 엔티티 클래스를 기준으로 Hibernate가 DDL (테이블 생성/ 삭제) 를 자동으로 수행하는 설정 -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
         </properties>
 
     </persistence-unit>
@@ -42,19 +45,26 @@
        com.practice 패키지 이름 + Menu 클래스 이름
        -->
         <class>com.section01.entity.Member</class>
+        <class>com.section02.enumType.Member</class>
 
         <properties>
+
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value="1234"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/menudb"/>
 
-            <!--hibernate 설정 (JPA에 의해 실행되는 SQL 구문을 콘솔에 보여준다-->
+            <!--hibernate 설정 (JPA에 의해 실행되는 SQL 구문을 콘솔에 보여준다)-->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.highlight_sql" value="true"/>
             <!--
-            엔티티 클래스를 기준으로 Hibernate가 DDL (테이블 생성/ 삭제) 를 자동을 수행하는 설정
+            엔티티 클래스를 기준으로 Hibernate가 DDL (테이블 생성/ 삭제) 를 자동으로 수행하는 설정
+            - none          : 아무것도 하지않음 (default)
+            - create        : 실행할 때마다 기존 테이블 drop, 새로 생성(새로고침)
+            - create-drop   : create와 같지만, 애플리케이션 종료할 때 drop
+            - update        : 기존 테이블 유지하면서, 변경된 부분(컬럼 추가) 만 반영 / 삭제와 타입 변경은 반영이 안된다.
+            - validate      : DDL 실행을 하지 않고 구조가 맞는지 검증만 진행
             -->
             <property name="hibernate.hbm2ddl.auto" value="create"/>
 
