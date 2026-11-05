@@ -15,6 +15,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/common-response")
 
+//  "JSON으로 바뀐다"는 건 메모리 안에만 있던 자바 객체를,
+//  네트워크로 보낼 수 있고 어떤 언어로든 읽을 수 있는 약속된 형식의 텍스트로 바꾼다는 뜻입니다.
+
 public class CommonResponseController {
 
     private List<UserDTO> users;
@@ -32,6 +35,7 @@ public class CommonResponseController {
     @GetMapping("/users")
     public ResponseEntity<ApiResponse<List<UserDTO>>> findAllUsers() {
 
+        //ApiResponse 객체 생성
         ApiResponse<List<UserDTO>> response = ApiResponse.success(
                 HttpStatus.OK.value(),
                 "사용자 목록 조회에 성공했습니다.",
@@ -41,7 +45,7 @@ public class CommonResponseController {
         return ResponseEntity.ok(response);
     }
 
-    // 특정 유저 상세 조회
+    // 특정 유저 상세 조회 && 한 명 조회
     @GetMapping("/users/{userNo}")
     public ResponseEntity<ApiResponse<UserDTO>> findUserByNo(@PathVariable int userNo) {
 
@@ -66,7 +70,7 @@ public class CommonResponseController {
                 .body(response);
     }
 
-    // 반환데이터가 없는경우
+    // 반환 데이터가 없는경우
     @GetMapping("/health")
     public ResponseEntity<ApiResponse<Void>> healthCheck() {
 

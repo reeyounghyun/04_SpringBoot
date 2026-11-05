@@ -32,14 +32,17 @@ public class ApiResponse <T> {
     *
     * ApiResponse.success( 이런식으로 호출)
     * */
+    //  <T>는 제네릭의 "타입 파라미터" 입니다.
     public static <T> ApiResponse<T> of(int status) {
         return new ApiResponse<>(status);
     }
 
+    // success 은 정상적으로 처리되었을 때
     public static <T> ApiResponse<T> success(int status, String message, T data) {
         return new ApiResponse<>(status, message, data);
     }
 
+    // failure 은 정상적으로 처리되지 않았을 때
     public static <T> ApiResponse<T> failure(int status, String message, T data) {
         return new ApiResponse<>(status, message, null);
     }

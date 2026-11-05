@@ -14,7 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class UserDTO {
+public class UserDTO { // 규칙표
 
     private int no;
 

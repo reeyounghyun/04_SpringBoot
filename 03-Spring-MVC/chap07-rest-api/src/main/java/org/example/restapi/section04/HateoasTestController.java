@@ -50,18 +50,18 @@ public class HateoasTestController {
         /*
          * application/json : HTTP의 응답이 JSON 형식의 데이터임을 의미
          * */
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(
+        HttpHeaders headers = new HttpHeaders(); // 빈 객체를 만들어주고
+        headers.setContentType( // 나가는 타입을 정의해준
                 new MediaType("application", "json", StandardCharsets.UTF_8)
         );
 
-        UserDTO foundUser = new UserDTO();
+        UserDTO foundUser = new UserDTO(); // 찾은 회원을 담아줄 빈 UserDTO 객체를 만든 코드
 
         // 일치하는 회원 찾기
-        for (UserDTO user : users) {
-            if (user.getNo() == userNo) {
-                foundUser = user;
-                break;
+        for (UserDTO user : users) { // 빈 객체로 시작
+            if (user.getNo() == userNo) { // [조건] 요청한 번호와 같으면
+                foundUser = user; //  해당 회원을 찾았다면 빈 객체에 담아준다
+                break; // 찾았으면 반복 종료 & 매서드가 아직 종료하지 않음
             }
         }
 
@@ -82,10 +82,13 @@ public class HateoasTestController {
     public ResponseEntity<ResponseMessage> findAllUsers() {
 
         // 사용자 목록을 EntityModel로 변환하기위해 Assembler의 toModel 메소드 사용
-        List<EntityModel<UserDTO>> usersWithRel = users.stream()
+        List<EntityModel<UserDTO>> usersWithRel = users.stream()  // stream() 유저 리스트를 하나씩 꺼내
+
                 .map(user -> assembler.toModel(user))
-//                .map(assembler::toModel) // 같은내용
-                .toList();
+                // 꺼낸 UserDTO 하나 마다 TO.Model로 호출 -> 링크가 붙은  EntityModel<UserDTO>로 바꿔
+
+//               .map(assembler::toModel) // 같은내용
+                .toList(); // 바뀐 결과들을 다시 리스트로
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("users", usersWithRel);
@@ -97,7 +100,7 @@ public class HateoasTestController {
          * application/json : HTTP의 응답이 JSON 형식의 데이터임을 의미
          * */
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(
+        headers.setContentType(  // 해더만들기 => 이름: 값 형태의 정보 Content-Type: application/json
                 new MediaType("application", "json", StandardCharsets.UTF_8)
         );
 

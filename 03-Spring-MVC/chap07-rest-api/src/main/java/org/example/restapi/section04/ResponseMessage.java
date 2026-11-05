@@ -10,7 +10,7 @@ import java.util.Map;
 @Setter
 @ToString
 public class ResponseMessage {
-
+    // 응답코드 & 메세지 & 데이터 == 겉모양
     private int httpStatus; // HTTP 응답코드
     private String message; // HTTP 응답 메시지
     private Map<String, Object> result; // HTTP 응답 데이터

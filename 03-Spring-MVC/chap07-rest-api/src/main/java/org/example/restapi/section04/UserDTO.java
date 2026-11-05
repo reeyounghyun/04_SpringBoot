@@ -10,7 +10,7 @@ import java.util.Date;
 @Setter
 @ToString
 public class UserDTO {
-
+    // 안에 들어가는 실제 데이터 no/id/pwd/name/enrollAt
     private int no;
     private String id;
     private String pwd;

@@ -23,6 +23,13 @@ public class EnumExceptionHandler {
         ErrorResponse response = ErrorResponse.from(businessException);
         //  타입         변수명       객체를 만들어 주는 매서드
 
+        //  Response (리스폰스) │ 응답 │ 서버 → 클라이언트 ("여기 있습니다")
         return ResponseEntity.status(errorCode.getHttpStatus()).body(response);
+        // 리턴 응답Entity.스테이터스(에러코드.get(가져와)  HttpStatus(상태코드)필드 값을 꺼내라. 어디에?
+        // => 상태코드 칸에는 status(404), 본문 칸에는 body(response) == [ErrorResponse]객체
+
+        // 응답을 만들어서 반환한다
+        // 상태코드 칸 = 에러코드에서 꺼낸 상태코드(예: 404)
+        // 본문(body) 칸 = response(ErrorResponse 객체)
     }
 }

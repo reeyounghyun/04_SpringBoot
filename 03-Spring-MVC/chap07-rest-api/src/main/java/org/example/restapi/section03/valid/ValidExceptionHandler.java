@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.Map;
 
 @RestControllerAdvice(basePackages = "org.example.restapi.section03.valid")
-public class ValidExceptionHandler {
+public class ValidExceptionHandler { //  이미 발생한 예외를 잡아서 처리하는 코드 && 반려 담당자
 
     // MethodArgumentNotValidException.class : Validation 발생시키는 예외
     @ExceptionHandler(MethodArgumentNotValidException.class)

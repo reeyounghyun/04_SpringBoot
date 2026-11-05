@@ -30,6 +30,7 @@ public class EnumExceptionController {
             throw new BusinessException(ErrorCode.INVALID_USER_NUMBER);
         }
 
+        // users.get의 get은 Map에 get(키) = Users No(숫자) 매서드 이다.
         String userName = users.get(userNo); //예외가 발생하지 않았을 때 실행됩
 
         if (userName == null) {

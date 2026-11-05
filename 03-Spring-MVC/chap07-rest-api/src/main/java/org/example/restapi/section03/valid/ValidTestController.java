@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 * */
 @RestController
 @RequestMapping("/valid")
-public class ValidTestController {
+public class ValidTestController { // 코드를 처리하는곳
 
     @PostMapping("/users") // @Valid @RequestBody UserDTO userDTO => @Valid앞에 작성해주면 검증하겠다 라는 의미
     public ResponseEntity<Void> saveUser(@Valid @RequestBody UserDTO userDTO) {
@@ -24,3 +24,9 @@ public class ValidTestController {
         return ResponseEntity.ok().build();
     }
 }
+
+/*
+* JSON 도착 → @Valid 보고 스프링이 UserDTO 규칙으로 검사
+   ├─ 통과 → saveUser() 실행 → 200 OK
+   └─ 실패 → 예외 발생 → 핸들러가 {"field":..., "message":...}로 400 응답
+* */

@@ -114,10 +114,6 @@ public class ResponseEntityController {
                 .build();
     }
 
-    // 기존 유저 정보를 수정
-
-
-
     // 기존 유저 정보를 삭제
     @DeleteMapping("/users/{userNo}")
     public ResponseEntity<?> removeUser(@PathVariable int userNo) {
