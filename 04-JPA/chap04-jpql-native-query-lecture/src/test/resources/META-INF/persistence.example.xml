@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+             version="3.2">
+
+	<!-- 엔티티 매니저 팩토리를 식별하기 위한 이름 설정 -->
+	<persistence-unit name="jpatest">
+
+		<class>com.bear.section01.simple.Menu</class>
+		<class>com.bear.section02.parameter.Menu</class>
+		<class>com.bear.section03.projection.BiDirectionCategory</class>
+		<class>com.bear.section03.projection.BiDirectionMenu</class>
+		<class>com.bear.section03.projection.Category</class>
+		<class>com.bear.section03.projection.Menu</class>
+		<class>com.bear.section04.groupfunction.Menu</class>
+		<class>com.bear.section05.join.Category</class>
+		<class>com.bear.section05.join.Menu</class>
+		<class>com.bear.section06.subquery.Category</class>
+		<class>com.bear.section06.subquery.Menu</class>
+		<class>com.bear.section07.namedquery.Menu</class>
+
+		<properties>
+
+			<!-- 데이터 베이스 연결 정보 -->
+			<property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+			<property name="jakarta.persistence.jdbc.user" value="root"/>
+			<property name="jakarta.persistence.jdbc.password" value="비밀번호 입력"/>
+			<property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/menudb"/>
+
+			<!-- hibernate 설정 (실행 되는 sql 구문을 format 형태로 보여준다) -->
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+			<property name="hibernate.highlight_sql" value="true"/>
+		</properties>
+
+	</persistence-unit>
+
+</persistence>
