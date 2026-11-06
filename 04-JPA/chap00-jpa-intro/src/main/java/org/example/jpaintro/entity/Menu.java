@@ -35,8 +35,9 @@ public class Menu {
     @Column(name = "menu_price")
     private Integer menuPrice;
 
-    @Column(name = "category_code")
-    private Integer categoryCode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_code")
+    private Category category;
 
     @Column(name = "orderable_status")
     private String orderableStatus;
@@ -48,14 +49,14 @@ public class Menu {
      * - 값 세팅은 아래 change() 를 재사용해서, 등록/수정이 같은 로직을 쓰도록 했다.
      * - @NoArgsConstructor(PROTECTED) 로 기본 생성자는 막아두고, 이 생성자로만 메뉴를 만들게 한다.
      */
-    public Menu(String menuName, Integer menuPrice, Integer categoryCode, String orderableStatus) {
-        change(menuName, menuPrice, categoryCode, orderableStatus);
+    public Menu(String menuName, Integer menuPrice, Category category, String orderableStatus) {
+        change(menuName, menuPrice, category, orderableStatus);
     }
 
-    public void change(String menuName, Integer menuPrice, Integer categoryCode, String orderableStatus) {
+    public void change(String menuName, Integer menuPrice, Category category, String orderableStatus) {
         this.menuName = menuName;
         this.menuPrice = menuPrice;
-        this.categoryCode = categoryCode;
+        this.category = category;
         this.orderableStatus = orderableStatus;
     }
 }

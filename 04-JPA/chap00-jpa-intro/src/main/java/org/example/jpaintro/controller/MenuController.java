@@ -39,8 +39,21 @@ public class MenuController {
         return menuService.create(menuRequestDTO);
     }
 
+    // 메뉴 수정
     @PutMapping("/{menuCode}")
     public MenuResponseDTO update(@PathVariable Integer menuCode, @RequestBody MenuRequestDTO menuRequestDTO) {
         return menuService.update(menuCode, menuRequestDTO);
     }
+
+    // 메뉴 삭제
+    @DeleteMapping("/{menuCode}")
+    public void remove(@PathVariable Integer menuCode) {
+        menuService.remove(menuCode);
+    }
+
+    @DeleteMapping("/category/{categoryCode}")
+    public void removeByCategory(@PathVariable Integer categoryCode) {
+        menuService.removeByCategory(categoryCode);
+    }
+
 }

@@ -4,8 +4,11 @@ package org.example.jpaintro.service;
 import lombok.RequiredArgsConstructor;
 import org.example.jpaintro.dto.MenuRequestDTO;
 import org.example.jpaintro.dto.MenuResponseDTO;
+import org.example.jpaintro.entity.Category;
 import org.example.jpaintro.entity.Menu;
+import org.example.jpaintro.repository.MenuCategoryRepository;
 import org.example.jpaintro.repository.MenuRepository;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,7 @@ import java.util.List;
 public class MenuService {
 
     private final MenuRepository menuRepository;
+    private final MenuCategoryRepository menuCategoryRepository;
 
     public List<MenuResponseDTO> findAll() {
 
@@ -34,11 +38,13 @@ public class MenuService {
 
     // create 메서드
     @Transactional
-    public MenuResponseDTO create(MenuRequestDTO request) {
+    public MenuResponseDTO create(@NonNull MenuRequestDTO request) {
+        Category category = menuCategoryRepository.findById(request.getCategoryCode())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리를 찾을 수 없습니다."));
         Menu menu = new Menu(
                 request.getMenuName(),
                 request.getMenuPrice(),
-                request.getCategoryCode(),
+                category,
                 request.getOrderableStatus()
         );
 
@@ -51,6 +57,8 @@ public class MenuService {
     // update 메서드
     @Transactional
     public MenuResponseDTO update(Integer menuCode, MenuRequestDTO request) {
+        Category category = menuCategoryRepository.findById(request.getCategoryCode())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리를 찾을 수 없습니다."));
 
         // id로 수정할 메뉴 정보 찾아오기
         Menu menu = menuRepository.findById(menuCode)
@@ -61,9 +69,31 @@ public class MenuService {
         menu.change(
                 request.getMenuName(),
                 request.getMenuPrice(),
-                request.getCategoryCode(),
+                category,
                 request.getOrderableStatus());
 
         return MenuResponseDTO.from(menu);
+    }
+
+    //remove 메서드
+    @Transactional
+    public void remove(Integer menuCode) {
+        Menu menu = menuRepository.findById(menuCode)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "메뉴를 찾을 수 없습니다."));
+
+        menuRepository.delete(menu);
+    }
+
+    @Transactional
+    public void removeByCategory(Integer categoryCode) {
+        Category category = menuCategoryRepository.findById(categoryCode)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리를 찾을 수 없습니다."));
+
+        List<Menu> menus = menuRepository.findByCategory(category);
+
+        System.out.println(menus);
+
     }
 }

@@ -27,6 +27,7 @@ public class MenuResponseDTO {
     private String menuName;
     private Integer menuPrice;
     private Integer categoryCode;
+    private String categoryName;
     private String orderableStatus;
 
     // Entity(Menu) → 응답 DTO 로 변환하는 정적 팩토리 메서드
@@ -36,7 +37,8 @@ public class MenuResponseDTO {
                 menu.getMenuCode(),
                 menu.getMenuName(),
                 menu.getMenuPrice(),
-                menu.getCategoryCode(),
+                menu.getCategory().getCategoryCode(),
+                menu.getCategory().getCategoryName(),
                 menu.getOrderableStatus()
         );
     }
