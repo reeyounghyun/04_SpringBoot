@@ -2,6 +2,8 @@ package org.example.springdatajpa.repository;
 
 import org.example.springdatajpa.dto.CategoryMenuCountProjection;
 import org.example.springdatajpa.dto.CategoryMenuStatisticsDTO;
+import org.example.springdatajpa.dto.OrderableMenuCountProjection;
+import org.example.springdatajpa.dto.findCategoryPriceStatisticsDTO;
 import org.example.springdatajpa.entity.Category;
 import org.example.springdatajpa.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -227,6 +229,93 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
             order by menu.menu_code asc
             """, nativeQuery = true)
     List<Menu> findByCategoryNative(Integer categoryCode);
+
+
+    /* [기본 실습 1] */
+    List<Menu> findByMenuPriceBetweenOrderByMenuPriceDescMenuCodeAsc(Integer minPrice, Integer maxPrice);
+
+    /* [기본 실습 2] */
+    List<Menu> findByCategoryCategoryCodeAndOrderableStatus(Integer categoryCode, String status);
+
+    /* [기본 실습 3]*/
+
+    @Query("""
+        select menu
+        from Menu menu
+        join fetch menu.category
+        where menu.orderableStatus = 'Y'
+        order by menu.menuPrice asc, menu.menuCode asc
+        """)
+    List<Menu> findOrderableMenus();
+
+
+    /*[기본 실습 4]*/
+    @Query("""
+        select menu
+        from Menu menu
+        join fetch menu.category
+        where menu.category.categoryCode = :categoryCode
+        and menu.menuPrice <= :maxPrice
+        order by menu.menuPrice asc, menu.menuCode asc
+        """)
+    List<Menu> searchMenus(
+            @Param("categoryCode") Integer categoryCode,
+            @Param("maxPrice") Integer maxPrice);
+
+
+
+    /* [기본 실습 5]*/
+    @Query("""
+        select category.categoryCode as categoryCode,
+               category.categoryName as categoryName,
+               count(menu) as menuCount
+        from Menu menu
+        join menu.category category
+        where menu.orderableStatus = 'Y'
+        group by category.categoryCode, category.categoryName
+        order by category.categoryCode asc
+        """)
+    List<OrderableMenuCountProjection> findOrderableMenuCounts();
+
+
+    /* [기본 실습 6]*/
+    @Query("""
+      select new org.example.springdatajpa.dto.findCategoryPriceStatisticsDTO(
+      category.categoryCode,
+      category.categoryName,
+      min(menu.menuPrice),
+      max(menu.menuPrice)
+     )
+       from Menu menu
+       join menu.category category
+       group by category.categoryCode, category.categoryName
+       order by category.categoryCode asc
+    """)
+    List<findCategoryPriceStatisticsDTO> findCategoryPriceStatistics();
+
+
+    /* [기본 실습 7] */
+    @Query("""
+        select menu
+        from Menu menu
+        join fetch menu.category
+        where menu.menuPrice < (
+           select avg(m.menuPrice)
+           from Menu m
+          )
+        order by menu.menuPrice asc, menu.menuCode asc
+        """)
+    List<Menu> findMenusBelowAverage();
+
+
+    /* [기본 실습 8] */
+    @Query(value = """
+        select menu.*
+        from tbl_menu menu
+        where menu.menu_price >= :price
+        order by menu.menu_price desc, menu.menu_code asc
+        """, nativeQuery = true)
+    List<Menu> findExpensiveMenusNative(@Param("price") Integer price);
 }
 
 

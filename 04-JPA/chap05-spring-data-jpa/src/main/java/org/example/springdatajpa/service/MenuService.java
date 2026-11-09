@@ -228,4 +228,88 @@ public class MenuService {
 
         return menuList.stream().map(MenuResponseDTO::from).toList();
     }
+
+   /*실습 시작*/
+
+    // [기본 실습 1]
+    public List<MenuResponseDTO> findMenusByPriceRange(Integer minPrice, Integer maxPrice) {
+        // 조건
+        if(minPrice == null || maxPrice == null || minPrice < 0 || maxPrice < 0 || minPrice > maxPrice) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 가격 범위 입니다. 다시 입력하세요");
+        }
+
+        // 검증
+        List<Menu> menuList = menuRepository
+                .findByMenuPriceBetweenOrderByMenuPriceDescMenuCodeAsc(minPrice, maxPrice);
+
+        return menuList.stream().map(menu -> MenuResponseDTO.from(menu)).toList();
+
+    }
+
+    // [기본 실습 2]
+    public List<MenuResponseDTO> findMenusByCategoryAndStatus(Integer categoryCode, String status) {
+        // 조건
+        if (!categoryRepository.existsById(categoryCode)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다.");
+        }
+
+        //검증
+        List<Menu> menuList = menuRepository
+                .findByCategoryCategoryCodeAndOrderableStatus(categoryCode, status);
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    }
+
+    // [기본 실습 3]
+    @Transactional(readOnly = true)
+    public List<MenuResponseDTO> findOrderableMenus() {
+        List<Menu> menuList = menuRepository
+                .findOrderableMenus();
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    }
+
+    // [기본 실습 4]
+    @Transactional(readOnly = true)
+    public List<MenuResponseDTO> searchMenus(Integer categoryCode, Integer maxPrice) {
+        // 잘못된 가격 → 400
+        if (maxPrice == null || maxPrice < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 가격입니다.");
+        }
+        // 카테고리 없음 → 404
+        if (!categoryRepository.existsById(categoryCode)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다.");
+        }
+
+        List<Menu> menuList = menuRepository
+                .searchMenus(categoryCode, maxPrice);
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    };
+
+    // [기본 실습 5]
+    @Transactional(readOnly = true)
+    public List<OrderableMenuCountProjection> findOrderableMenuCounts() {
+        return menuRepository.findOrderableMenuCounts();
+    }
+
+    // [기본 실습 6]
+    @Transactional(readOnly = true)
+    public List<findCategoryPriceStatisticsDTO> findCategoryPriceStatistics() {
+        return menuRepository.findCategoryPriceStatistics();
+    }
+
+
+    // [기본 실습 7]
+    @Transactional(readOnly = true)
+    public List<MenuResponseDTO>findMenusBelowAverage() {
+        return menuRepository.findMenusBelowAverage()
+                .stream().map(MenuResponseDTO::from).toList();
+    }
+
+    // [기본 실습 8]
+    @Transactional(readOnly = true)
+    public List<MenuResponseDTO> findExpensiveMenusNative(Integer price) {
+        return menuRepository.findExpensiveMenusNative(price)
+                .stream().map(MenuResponseDTO::from).toList();
+    }
 }
