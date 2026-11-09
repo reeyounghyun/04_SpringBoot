@@ -50,6 +50,15 @@ public class JpqlMenuController {
     public List<MenuResponseDTO> searchByName(@RequestParam String keyword) {
         return menuService.searchByName(keyword);
     }
+
+
+    /* JPQL 서브쿼리
+     * 각 메뉴를 자신이 속한 카테고리의 평균 가격과 비교
+     * 해당 평균보다 비싼 메뉴만 카테고리와 함께 조회*/
+    @GetMapping("/above-category-average")
+    public List<MenuResponseDTO> findMenusAboveCategoryAverage() {
+        return menuService.findMenusAboveCategoryAverage();
+    }
 }
 
 

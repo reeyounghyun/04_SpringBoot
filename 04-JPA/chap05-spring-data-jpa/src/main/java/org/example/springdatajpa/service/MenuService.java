@@ -201,4 +201,13 @@ public class MenuService {
 
         return menuList.stream().map(MenuResponseDTO::from).toList();
     }
+
+    // JPQL 서브쿼리로 자신이 속한 카테고리의 평균 가격보다 비싼 메뉴 조회
+    @Transactional(readOnly = true)
+    public List<MenuResponseDTO> findMenusAboveCategoryAverage() {
+        List<Menu> menuList = menuRepository
+                .findMenusAboveCategoryAverage();
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    } // 리스트에 담기는건 조건을 통과한 메뉴(평균) / 평균은 기준일 뿐, 결과에는 안나옴
 }

@@ -168,4 +168,23 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
             """)
     List<Menu> searchByName(@Param("keyword") String keyword);
 
+    /*
+     * JPQL 서브쿼리
+     * - 각 메뉴를 자신이 속한 카테고리의 평균 가격과 비교
+     * - 괄호 안(서브쿼리)은 바깥 메뉴(menu)와 같은 카테고리인 메뉴(subMenu)들의 평균 가격을 구한다.
+     * - join fetch : 카테고리를 함께 조회해 DTO 변환 시 추가 쿼리(N+1)가 나가지 않게 한다.
+     */
+    @Query("""
+            select menu
+            from Menu menu
+            join fetch menu.category
+            where menu.menuPrice > (
+                        select avg(subMenu.menuPrice)
+                        from Menu subMenu
+                        where subMenu.category = menu.category
+                        )
+            order by menu.category.categoryCode asc
+            """)
+    List<Menu> findMenusAboveCategoryAverage();
+
 }
