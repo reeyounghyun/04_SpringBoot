@@ -1,6 +1,7 @@
 package org.example.springdatajpa.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.springdatajpa.dto.CategoryMenuCountProjection;
 import org.example.springdatajpa.dto.CategoryMenuStatisticsDTO;
 import org.example.springdatajpa.service.MenuService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,15 @@ public class JpqlCategoryController {
     @GetMapping("/menu-statistics")
     public List<CategoryMenuStatisticsDTO> findMenuStatistics() {
         return menuService.findCategoryStatistics();
+    }
+
+    /*
+    * 인터페이스를 이용한 Projection
+    * 결과에는 카테고리 코드, 이름, 메뉴 개수
+    * */
+    @GetMapping("/menu-counts")
+    public List<CategoryMenuCountProjection> findMenuCounts() {
+        return menuService.findCategoryMenuCounts();
     }
 
 }

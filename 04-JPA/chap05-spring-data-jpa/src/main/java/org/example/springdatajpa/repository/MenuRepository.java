@@ -1,5 +1,6 @@
 package org.example.springdatajpa.repository;
 
+import org.example.springdatajpa.dto.CategoryMenuCountProjection;
 import org.example.springdatajpa.dto.CategoryMenuStatisticsDTO;
 import org.example.springdatajpa.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -109,4 +110,20 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
             order by category.categoryCode asc
             """)
     List<CategoryMenuStatisticsDTO> findCategoryStatistics();
+
+    /*
+     * 인터페이스 Projection
+     * - new 키워드와 패키지 이름이 필요 없다.
+     * - select 항목마다 as 별칭을 붙이고, 별칭 = 인터페이스 getter 이름(get 뒤 부분)으로 맞춘다.
+     */
+    @Query("""
+            select category.categoryCode as categoryCode,
+                   category.categoryName as categoryName,
+                   count(menu) as menuCount
+            from Menu menu
+            join menu.category category
+            group by category.categoryCode, category.categoryName
+            order by category.categoryCode asc
+            """)
+    List<CategoryMenuCountProjection> findCategoryMenuCounts();
 }

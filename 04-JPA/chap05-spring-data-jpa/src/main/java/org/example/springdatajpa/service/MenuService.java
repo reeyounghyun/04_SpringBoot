@@ -1,6 +1,7 @@
 package org.example.springdatajpa.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.springdatajpa.dto.CategoryMenuCountProjection;
 import org.example.springdatajpa.dto.CategoryMenuStatisticsDTO;
 import org.example.springdatajpa.dto.MenuRequestDTO;
 import org.example.springdatajpa.dto.MenuResponseDTO;
@@ -156,5 +157,11 @@ public class MenuService {
     @Transactional(readOnly = true)
     public List<CategoryMenuStatisticsDTO> findCategoryStatistics() {
         return menuRepository.findCategoryStatistics();
+    }
+
+    // 인터페이스 Projection으로 카테고리별 메뉴 개수 조회
+    @Transactional(readOnly = true)
+    public List<CategoryMenuCountProjection> findCategoryMenuCounts() {
+        return menuRepository.findCategoryMenuCounts();
     }
 }
