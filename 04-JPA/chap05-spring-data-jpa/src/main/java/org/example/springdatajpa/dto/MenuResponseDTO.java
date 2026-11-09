@@ -7,6 +7,13 @@ import lombok.Setter;
 import org.example.springdatajpa.entity.Category;
 import org.example.springdatajpa.entity.Menu;
 
+/*
+* Projection -> 읽기전용객체
+*
+* - JPA Entity로만 응답받게 의존해야하는데
+* - Entity에 없는 필드도 받을 수 있게
+* - Projection을 만들어서 사용 할 수 있다.
+* */
 @Getter
 @Setter
 @NoArgsConstructor
