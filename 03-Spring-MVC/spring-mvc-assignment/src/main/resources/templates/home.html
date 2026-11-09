@@ -65,6 +65,24 @@
     <a href="/interceptors/exception">인터셉터에서 예외 발생</a> <small>AccessInterceptor → GlobalExceptionHandler · GET /interceptors/exception</small><br>
     <a href="/interceptors/exception?access=granted">access=granted로 통과</a> <small>InterceptorController · GET /interceptors/exception?access=granted</small>
 
+    <hr>
+    <h2 id="problem08">문제 8. @RestController 반환 타입별 응답</h2>
+    <a href="/api/responses/text">String 응답</a> <small>ResponseTypeController · GET /api/responses/text</small><br>
+    <a href="/api/responses/count">int 응답</a> <small>ResponseTypeController · GET /api/responses/count</small><br>
+    <a href="/api/responses/book">객체 응답</a> <small>ResponseTypeController · GET /api/responses/book</small><br>
+    <a href="/api/responses/books">List 응답</a> <small>ResponseTypeController · GET /api/responses/books</small><br>
+    <a href="/api/responses/status">Map 응답</a> <small>ResponseTypeController · GET /api/responses/status</small><br>
+    <a href="/api/responses/cover">이미지 응답</a> <small>ResponseTypeController · GET /api/responses/cover</small><br>
+    <a href="/api/responses/entity">ResponseEntity 응답</a> <small>ResponseTypeController · GET /api/responses/entity (상태코드·헤더는 problem08.http로 확인)</small>
+
+    <hr>
+    <h2 id="problem09">문제 9. ResponseEntity 도서 CRUD API</h2>
+    <a href="/api/books">전체 조회</a> <small>BookApiController · GET /api/books</small><br>
+    <a href="/api/books/1">1번 도서 조회</a> <small>BookApiController · GET /api/books/1</small><br>
+    <a href="/api/books/99">없는 도서 조회 (404)</a> <small>BookApiController · GET /api/books/99</small><br>
+    <a href="/api/books/search?maxPrice=30000">30000원 이하 검색</a> <small>BookApiController · GET /api/books/search?maxPrice=30000</small><br>
+    <small>POST · PUT · PATCH · DELETE는 problem09/problem09.http로 요청합니다.</small>
+
 </body>
 </html>
 

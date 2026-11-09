@@ -34,4 +34,15 @@ Gradle Wrapper를 포함하므로 별도 Gradle 설치는 필요 없습니다. �
 
 `ReservationForm.java`는 예약 입력값을 묶는 완성된 DTO입니다. 수정하지 않습니다.
 
+## REST API 문제 (chap07 복습)
+
+| 파일 | 내용 |
+|---|---|
+| `problem08/ResponseTypeController.java` | String, int, 객체, List, Map, byte[] 이미지, ResponseEntity 응답 |
+| `problem09/BookApiController.java` | ResponseEntity 도서 CRUD (200/201/204/400/404), PUT과 PATCH, 검색 |
+
+GET 요청은 홈 화면 링크로, POST·PUT·PATCH·DELETE는 각 폴더의 `problem08.http`, `problem09.http`로 확인합니다.
+`BookDTO.java`, `ResponseMessage.java`는 완성된 제공 코드이므로 수정하지 않습니다.
+구현하지 않은 메서드는 `UnsupportedOperationException`을 던지므로 500 응답이 정상입니다.
+
 `MvcAssignmentApplication.java`, `support` 패키지, HTML, JavaScript, 설정과 빌드 파일은 제공 코드이므로 수정하지 않습니다. 처음에는 홈만 열리며, 구현하지 않은 경로의 404 응답은 정상입니다.
