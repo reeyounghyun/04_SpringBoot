@@ -1,7 +1,7 @@
 package org.example.exercise.practice.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.exercise.practice.repository.PracticeMenuRepository;
+import org.example.exercise.practice.repository.ExerciseMenuRepository;
 import org.example.springdatajpa.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class PracticeMenuService {
-    private final PracticeMenuRepository practiceMenuRepository;
+public class ExerciseMenuService {
+    private final ExerciseMenuRepository exerciseMenuRepository;
     private final CategoryRepository categoryRepository;
 
     /*

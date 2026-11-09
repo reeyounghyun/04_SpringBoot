@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *          완성한 문제부터 하나씩 작성할 것!
  * ===============================================================
  */
-public interface PracticeMenuRepository extends JpaRepository<Menu, Integer> {
+public interface ExerciseMenuRepository extends JpaRepository<Menu, Integer> {
 
     /*
      * [3-1] 쿼리 메서드
