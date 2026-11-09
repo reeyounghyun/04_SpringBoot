@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +21,17 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
 
+    /*
+    * Transactional(readOnly = true)
+    * - 이 트랜잭션이 데이터를 변경하지 않고 조회만 한다는 의도를 Hibernate에게 알려주는 설정
+    *
+    * 붙였을때의 이점
+    * 1. Hibernate가 조회 결과 엔티티의 변경 감지를 위한 작업을 줄일 수 있다.
+    * 2. 트랜잭션이 끝났을 때 불필요한 Flush가 발생하지 않도록 함.
+    * 3. 코드를 읽는 개발자한테 이 메서드가 조회전용이라는 의도를 전달
+    * 4. 메서드가 실행되는동안 영속성 컨텍스트를 유지(여러 조회도 일관된 범위로 처리 가능) -> LAZY도 안전하게 조회됨
+    * 주의할점: select를 강제하는 기능은 아니므로 코드 작성시 유의해야함.
+    * */
     @Transactional(readOnly = true)
     public List<MenuResponseDTO> findAll() {
         return menuRepository.findAllWithCategory().stream()
@@ -62,19 +72,14 @@ public class MenuService {
         return MenuResponseDTO.from(menu);
     }
 
-    private Category findCategory(Integer categoryCode) {
-        return categoryRepository.findById(categoryCode)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "카테고리를 찾을 수 없습니다. categoryCode=" + categoryCode
-                ));
-    }
+
 
     /*
      * 주문 가능 상태(status)와 일치하는 메뉴를 조회해서 응답용 DTO 목록으로 돌려준다.
      * - 컨트롤러에서 받은 status("Y" 또는 "N")를 그대로 Repository 쿼리 메서드에 넘긴다.
      * - 정렬(가격 오름차순 → 메뉴코드 오름차순)은 쿼리 메서드 이름의 OrderBy 부분이 DB에서 처리한다.
      */
+    // 요청한 주문 가능 상태와 일치하는 메뉴를 조회
     public List<MenuResponseDTO> findByOrderableStatus(String status) {
         // 1. 쿼리 메서드 호출
         List<Menu> menuList =
@@ -93,5 +98,57 @@ public class MenuService {
 
         // 3. 변환된 DTO 목록을 컨트롤러로 반환 → JSON 배열로 응답된다.
         return listMenuResponseDto;
+    }
+
+    // 요청 가격 이상인 메뉴 조회
+    public List<MenuResponseDTO> findByMinimumPrice(Integer price) {
+
+        List<Menu> menuList = menuRepository.findByMenuPriceGreaterThanEqualOrderByMenuPriceAscMenuCodeAsc(price);
+
+        return menuList.stream().map(menu -> MenuResponseDTO.from(menu)).toList();
+    }
+
+    // 여러 조건을 결합
+    public List<MenuResponseDTO> findByStatusAndMaximumPrice(String status, Integer price) {
+
+        List<Menu> menuList = menuRepository
+                .findByOrderableStatusAndMenuPriceLessThanEqualOrderByMenuPriceAscMenuCodeAsc(status, price);
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    }
+
+    //요청한 카테고리에 속한 메뉴를 조회
+    public List<MenuResponseDTO> findByCategoryQueryMethod(Integer categoryCode) {
+
+        List<Menu> menuList = menuRepository
+                .findByCategory_CategoryCodeOrderByMenuCodeAsc(categoryCode);
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    }
+
+    // fk가 아닌 카테고리 이름으로 조회
+    public List<MenuResponseDTO> findByCategoryNameQueryMethod(String categoryName) {
+        List<Menu> menuList = menuRepository
+                .findByCategory_CategoryNameOrderByMenuCodeAsc(categoryName);
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    }
+
+    // 메뉴 이름에 검색어(keyword)가 포함된 메뉴를 조회
+    public List<MenuResponseDTO> findByMenuNameQueryMethod(String keyword) {
+
+        List<Menu> menuList = menuRepository
+                .findByMenuNameContainingOrderByMenuCodeAsc(keyword);
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    }
+
+    // 클래스안에서만 사용하는 메서드 -> 검증코드
+    private Category findCategory(Integer categoryCode) {
+        return categoryRepository.findById(categoryCode)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "카테고리를 찾을 수 없습니다. categoryCode=" + categoryCode
+                ));
     }
 }
