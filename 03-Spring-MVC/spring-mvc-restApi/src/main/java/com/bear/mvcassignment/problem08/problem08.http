@@ -1,0 +1,20 @@
+### 8-1. 문자열 응답
+GET http://localhost:8081/api/responses/text
+
+### 8-2. 기본 자료형 응답
+GET http://localhost:8081/api/responses/count
+
+### 8-3. 객체 응답
+GET http://localhost:8081/api/responses/book
+
+### 8-4. List 응답
+GET http://localhost:8081/api/responses/books
+
+### 8-5. Map 응답
+GET http://localhost:8081/api/responses/status
+
+### 8-6. 이미지 응답
+GET http://localhost:8081/api/responses/cover
+
+### 8-7. ResponseEntity (202 + X-Book-Count 헤더 확인)
+GET http://localhost:8081/api/responses/entity

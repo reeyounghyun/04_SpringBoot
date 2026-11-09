@@ -1,0 +1,54 @@
+### 9-1. 전체 조회 (200)
+GET http://localhost:8081/api/books
+
+### 9-2. 단건 조회 - 성공 (200)
+GET http://localhost:8081/api/books/1
+
+### 9-2. 단건 조회 - 없는 번호 (404)
+GET http://localhost:8081/api/books/99
+
+### 9-3. 등록 (201 + Location 헤더)
+POST http://localhost:8081/api/books
+Content-Type: application/json
+
+{
+  "title": "이펙티브 자바",
+  "author": "조슈아 블로크",
+  "price": 36000
+}
+
+### 9-3. 등록 - 가격 오류 (400)
+POST http://localhost:8081/api/books
+Content-Type: application/json
+
+{
+  "title": "공짜 책",
+  "author": "아무개",
+  "price": 0
+}
+
+### 9-4. 전체 수정 - 성공 (200)
+PUT http://localhost:8081/api/books/1
+Content-Type: application/json
+
+{
+  "title": "자바의 정석 4판",
+  "author": "남궁성",
+  "price": 32000
+}
+
+### 9-4. 전체 수정 - 없는 번호 (404)
+PUT http://localhost:8081/api/books/99
+Content-Type: application/json
+
+{
+  "title": "없는 책",
+  "author": "아무개",
+  "price": 10000
+}
+
+### 9-6. 삭제 - 성공 (204)
+DELETE http://localhost:8081/api/books/2
+
+### 9-6. 삭제 - 없는 번호 (404)
+DELETE http://localhost:8081/api/books/99
