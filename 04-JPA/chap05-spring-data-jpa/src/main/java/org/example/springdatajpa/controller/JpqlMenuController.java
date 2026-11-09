@@ -2,8 +2,12 @@ package org.example.springdatajpa.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.springdatajpa.dto.MenuResponseDTO;
+import org.example.springdatajpa.dto.PriceIncreaseRequestDTO;
+import org.example.springdatajpa.dto.PriceUpdateResponseDTO;
 import org.example.springdatajpa.service.MenuService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,6 +62,28 @@ public class JpqlMenuController {
     @GetMapping("/above-category-average")
     public List<MenuResponseDTO> findMenusAboveCategoryAverage() {
         return menuService.findMenusAboveCategoryAverage();
+    }
+
+    /*
+     * PATCH VS Put
+     * - PATCH는 리소스 전체가 아니라 일부 속성이나 특정 상태만 변경할때 -일부분 만 (카테고리는 유지하고, 가격만 변경할 때)
+     * - PUT은 리소스 전체를 요청 본문의 내용으로 교체할 때 사용 - 전체
+     *
+     * 멱등성
+     - PATCH 설계에 따라 멱등일 수도 아닐 수도 있음
+     - PUT 요청을 여러번 보내도 일반적으로 최종 상태는 같아야함.
+     */
+
+    // 카테고리별 메뉴 가격 일괄 인상
+    // PATCH
+    // 지정한 카테고리의 모든 메뉴 가격을 요청 비용만큼 한번에 인상
+    // 변경된 갯수를 반환받기
+    @PatchMapping("categories/{categoryCode}/price")
+    public PriceUpdateResponseDTO increasePriceByCategory(
+            @PathVariable Integer categoryCode,
+            @RequestBody PriceIncreaseRequestDTO request
+    ) {
+        return menuService.increasePriceByCategory(categoryCode, request.getIncreaseRate());
     }
 }
 

@@ -2,8 +2,10 @@ package org.example.springdatajpa.repository;
 
 import org.example.springdatajpa.dto.CategoryMenuCountProjection;
 import org.example.springdatajpa.dto.CategoryMenuStatisticsDTO;
+import org.example.springdatajpa.entity.Category;
 import org.example.springdatajpa.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -187,4 +189,25 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
             """)
     List<Menu> findMenusAboveCategoryAverage();
 
+    /*
+    * @Modifying
+    * - @Query : 기본적으로 조회용 select 쿼리로 처리된다.
+    * - @Query에 작성된 쿼리가 조회가 아니라 데이터를 변경하는 Insert, Update, Delete 성격의 쿼리라는 사실을 JPA에게 알려준다.
+    * - JPQL 또는 네이티브 쿼리로 Update, Delete를 실행할 때
+    * */
+
+    /*
+    * flushAutomatically = true
+    *  - 벌크쿼리(많은 동일한 작업을 한번에)를 실행하기 전에 영속성 컨텍스트의 변경 내용을 DB에 Flush
+    * clearAutomatically = true
+    *  - 벌크쿼리를 실행한 후에, 영속성 컨텍스트를 자동으로 초기화한다.
+    *  - 벌크쿼리는 영속성 컨텍스트를 거치지 않고 DB를 직접 수정하므로, 초기화하지 않으면 이전 값이 남아 있는 엔티티를 조회할 수 있다.
+    * */
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Query("""
+            update Menu menu
+            set menu.menuPrice = menu.menuPrice + (menu.menuPrice * :increaseRate / 100)
+            where menu.category = :category
+            """)
+    int increasePriceByCategory(Category category, Integer increaseRate);
 }

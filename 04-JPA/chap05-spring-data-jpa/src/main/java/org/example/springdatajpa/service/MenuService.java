@@ -210,4 +210,13 @@ public class MenuService {
 
         return menuList.stream().map(MenuResponseDTO::from).toList();
     } // 리스트에 담기는건 조건을 통과한 메뉴(평균) / 평균은 기준일 뿐, 결과에는 안나옴
+
+    // 카테고리별 메뉴 가격 일괄 인상
+    @Transactional
+    public PriceUpdateResponseDTO increasePriceByCategory(Integer categoryCode, Integer increaseRate) {
+        Category category = findCategory(categoryCode);
+        int updatedCount = menuRepository.increasePriceByCategory(category, increaseRate);
+
+        return new PriceUpdateResponseDTO(updatedCount);
+    }
 }
