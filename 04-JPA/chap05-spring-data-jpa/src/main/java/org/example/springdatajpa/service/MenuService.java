@@ -77,18 +77,18 @@ public class MenuService {
      */
     public List<MenuResponseDTO> findByOrderableStatus(String status) {
         // 1. 쿼리 메서드 호출
-        //    → SELECT m FROM Menu m WHERE m.orderableStatus = :status ORDER BY m.menuPrice ASC, m.menuCode ASC
-        //    결과는 엔티티(Menu) 목록이다.
         List<Menu> menuList =
                 menuRepository.findByOrderableStatusOrderByMenuPriceAscMenuCodeAsc(status);
 
         // 2. 엔티티(Menu) → 응답 DTO(MenuResponseDTO)로 변환
         //    stream()  : 리스트의 요소를 하나씩 흘려보낸다.
-        //    map(...)  : 흘러가는 Menu 하나하나를 MenuResponseDTO.from(menu)로 바꾼다.
-        //    toList()  : 바뀐 결과를 다시 리스트로 모은다.
         //    엔티티를 그대로 응답하지 않고 DTO로 바꾸는 이유: 필요한 값만 내보내고, 엔티티 구조가 바뀌어도 API 응답은 지키기 위해
         List<MenuResponseDTO>  listMenuResponseDto = menuList.stream()
+
+                //map(...)  : 흘러가는 Menu 하나하나를 MenuResponseDTO.from(menu)로 바꾼다.
                 .map(menu -> MenuResponseDTO.from(menu))
+
+                // toList()  : 바뀐 결과를 다시 리스트로 모은다
                 .toList();
 
         // 3. 변환된 DTO 목록을 컨트롤러로 반환 → JSON 배열로 응답된다.

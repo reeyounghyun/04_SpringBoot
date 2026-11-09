@@ -12,7 +12,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     List<Menu> findAllWithCategory();
 
     /*
-    *   * Spring Data JPA의 쿼리메서드
+     *  Spring Data JPA의 쿼리메서드
      * - 정해진 규칙에 따라 메서드 이름을 작성하면 Spring Data JPA가 JPQL을 자동 생성함
      *
      * [이 메서드에서 각 요소의 위치]
@@ -28,7 +28,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
      *      - OrderBy    : 여기서부터는 정렬 조건이라는 구분선. 정렬 기준이 여러 개여도 한 번만 쓴다.
      *
      *  4.[정렬필드 1] MenuPrice __(가격으로 정렬)
-     *      - Asc / Desc : 정렬 방향. Asc는 작은 값부터(오름차순), Desc는 큰 값부터(내림차순).
+     *      - 정렬필드   : 무엇을 기준으로 줄 세울지. 앞에 쓴 필드가 먼저 적용되고, 값이 같을 때 다음 필드로 정렬한다.
      *
      *  5.[정렬 방향]Asc __(오름차순)
      *      - Asc / Desc : 정렬 방향. Asc는 작은 값부터(오름차순), Desc는 큰 값부터(내림차순).

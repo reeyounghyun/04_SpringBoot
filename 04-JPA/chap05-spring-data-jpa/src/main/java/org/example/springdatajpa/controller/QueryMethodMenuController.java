@@ -24,7 +24,7 @@ public class QueryMethodMenuController {
      * */
     @GetMapping("/orderable")
     public List<MenuResponseDTO> findByOrderableStatus(@RequestParam String status) {
-        // 리스펀스 디티오 형태로 만들거임
+        // RequestParam DTO 형태로 만들거다
         return menuService.findByOrderableStatus(status);
     }
 }
