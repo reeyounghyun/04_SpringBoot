@@ -1,6 +1,7 @@
 package org.example.springdatajpa.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.springdatajpa.dto.CategoryMenuStatisticsDTO;
 import org.example.springdatajpa.dto.MenuRequestDTO;
 import org.example.springdatajpa.dto.MenuResponseDTO;
 import org.example.springdatajpa.entity.Category;
@@ -150,5 +151,10 @@ public class MenuService {
                         HttpStatus.NOT_FOUND,
                         "카테고리를 찾을 수 없습니다. categoryCode=" + categoryCode
                 ));
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryMenuStatisticsDTO> findCategoryStatistics() {
+        return menuRepository.findCategoryStatistics();
     }
 }

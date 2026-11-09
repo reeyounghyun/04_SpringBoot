@@ -1,5 +1,6 @@
 package org.example.springdatajpa.repository;
 
+import org.example.springdatajpa.dto.CategoryMenuStatisticsDTO;
 import org.example.springdatajpa.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -62,7 +63,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
     // 조건을 줄 땐 And로 연결
     List<Menu> findByOrderableStatusAndMenuPriceLessThanEqualOrderByMenuPriceAscMenuCodeAsc
-            (String orderableStatus, Integer menuPrice);
+    (String orderableStatus, Integer menuPrice);
 
     // 요청한 카테고리에 속한 메뉴를 조회, fk로 찾고 있음
     List<Menu> findByCategory_CategoryCodeOrderByMenuCodeAsc(Integer categoryCode);
@@ -76,4 +77,36 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     // 조건필드 MenuName + 비교 키워드 Containing(LIKE %검색어%) + 정렬(메뉴코드 오름차순)
     // → WHERE m.menuName LIKE %?1% ORDER BY m.menuCode ASC
     List<Menu> findByMenuNameContainingOrderByMenuCodeAsc(String keyword);
+
+    /*
+     * DTO Projection
+     * - JPQL에서 new 키워드와 DTO의 전체 패키지 이름을 사용
+     *
+     * 주의점
+     * - JPQL에 DTO의 전체 패키지 이름을 작성
+     * - select 항목의 순서와 DTO 생성자 매개변수 순서가 같아야함.
+     * - count 결과는 Long, AVG 결과는 Double
+     * - 생성자 필요!
+     *
+     * 순서가 중요하다! (select 항목 → DTO 생성자 매개변수에 순서대로 들어감)
+     *   1번째 category.categoryCode  → Integer categoryCode
+     *   2번째 category.categoryName  → String  categoryName
+     *   3번째 count(menu)            → Long    menuCount
+     *   4번째 avg(menu.menuPrice)    → Double  averagePrice
+     *   순서가 바뀌면 타입이 맞는 생성자를 찾지 못해 앱 실행 시 에러가 나고,
+     *   타입이 같은 값끼리 바뀌면 에러 없이 엉뚱한 필드에 값이 들어간다.
+     * */
+    @Query("""
+            select new org.example.springdatajpa.dto.CategoryMenuStatisticsDTO(
+                        category.categoryCode,
+                        category.categoryName,
+                        count(menu),
+                        avg(menu.menuPrice)
+                    )
+            from Menu menu
+            join menu.category category
+            group by category.categoryCode, category.categoryName
+            order by category.categoryCode asc
+            """)
+    List<CategoryMenuStatisticsDTO> findCategoryStatistics();
 }
