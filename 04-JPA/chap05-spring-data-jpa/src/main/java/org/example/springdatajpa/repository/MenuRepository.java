@@ -210,4 +210,23 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
             where menu.category = :category
             """)
     int increasePriceByCategory(Category category, Integer increaseRate);
+
+
+    // nativeQuery = true : 일반 DB 쿼리를 쓸 수 있게 해줌
+    @Query(value = """
+            select menu.*
+            from tbl_menu menu
+            where menu.category_code = :categoryCode
+            order by menu.menu_code asc
+            """, nativeQuery = true)
+    List<Menu> findByCategoryNative(Integer categoryCode);
 }
+
+
+/* 네이티브 쿼리보다 JPQL이 권장되는 이유?
+* 1. DB종류에 덜 의존한다.
+* 2. JPA 기능과 자연스럽게 연결된다 -> 엔티티 기준으로 사용 가능하다.
+* 3. 네이티브 쿼리 -> 데이터베이스 테이블명, 컬럼명에 의존하지만, JPQL은 엔티티 구조로 관리 가능
+*    (테이블명·컬럼명이 바뀌어도 엔티티의 @Table, @Column 매핑만 수정하면 JPQL은 그대로 사용할 수 있다)
+* 네이티브 쿼리는 -> 해당 데이터베이스의 특징 기능
+* */

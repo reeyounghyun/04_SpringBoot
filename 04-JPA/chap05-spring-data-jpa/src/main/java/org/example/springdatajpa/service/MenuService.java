@@ -219,4 +219,13 @@ public class MenuService {
 
         return new PriceUpdateResponseDTO(updatedCount);
     }
+
+    // 카테고리별 메뉴 조회
+    @Transactional(readOnly = true)
+    public List<MenuResponseDTO> findByCategoryNative(Integer categoryCode) {
+        List<Menu> menuList = menuRepository
+                .findByCategoryNative(categoryCode);
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    }
 }
