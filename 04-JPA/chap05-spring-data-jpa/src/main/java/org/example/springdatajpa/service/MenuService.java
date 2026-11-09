@@ -183,7 +183,7 @@ public class MenuService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "가격 범위를 올바르게 입력해야합니다.");
         }
         //[조건 2 ] status -> Y or N
-        if("Y".equals(status) && "N".equals(status)) {
+        if(!"Y".equals(status) && !"N".equals(status)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "주문 가능 상태는 Y 또는 N 이여야 합니다.");
         }
 
