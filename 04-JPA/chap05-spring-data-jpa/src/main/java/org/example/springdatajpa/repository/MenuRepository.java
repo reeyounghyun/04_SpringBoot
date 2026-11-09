@@ -13,6 +13,13 @@ import java.util.List;
 
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
+    /* 네이티브 쿼리보다 JPQL이 권장되는 이유?
+     * 1. DB종류에 덜 의존한다.
+     * 2. JPA 기능과 자연스럽게 연결된다 -> 엔티티 기준으로 사용 가능하다.
+     * 3. 네이티브 쿼리 -> 데이터베이스 테이블명, 컬럼명에 의존하지만, JPQL은 엔티티 구조로 관리 가능
+     *    (테이블명·컬럼명이 바뀌어도 엔티티의 @Table, @Column 매핑만 수정하면 JPQL은 그대로 사용할 수 있다)
+     * 네이티브 쿼리는 -> 해당 데이터베이스의 특징 기능
+     * */
 
     // insert update delete 단순 기존데이터만 가져올 수 있고 집계를 할수도 있다
     // -> 안에서 응답받는 데이터가(엔티티 필드의 전체, 혹은 일부)
@@ -190,19 +197,19 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     List<Menu> findMenusAboveCategoryAverage();
 
     /*
-    * @Modifying
-    * - @Query : 기본적으로 조회용 select 쿼리로 처리된다.
-    * - @Query에 작성된 쿼리가 조회가 아니라 데이터를 변경하는 Insert, Update, Delete 성격의 쿼리라는 사실을 JPA에게 알려준다.
-    * - JPQL 또는 네이티브 쿼리로 Update, Delete를 실행할 때
-    * */
+     * @Modifying
+     * - @Query : 기본적으로 조회용 select 쿼리로 처리된다.
+     * - @Query에 작성된 쿼리가 조회가 아니라 데이터를 변경하는 Insert, Update, Delete 성격의 쿼리라는 사실을 JPA에게 알려준다.
+     * - JPQL 또는 네이티브 쿼리로 Update, Delete를 실행할 때
+     * */
 
     /*
-    * flushAutomatically = true
-    *  - 벌크쿼리(많은 동일한 작업을 한번에)를 실행하기 전에 영속성 컨텍스트의 변경 내용을 DB에 Flush
-    * clearAutomatically = true
-    *  - 벌크쿼리를 실행한 후에, 영속성 컨텍스트를 자동으로 초기화한다.
-    *  - 벌크쿼리는 영속성 컨텍스트를 거치지 않고 DB를 직접 수정하므로, 초기화하지 않으면 이전 값이 남아 있는 엔티티를 조회할 수 있다.
-    * */
+     * flushAutomatically = true
+     *  - 벌크쿼리(많은 동일한 작업을 한번에)를 실행하기 전에 영속성 컨텍스트의 변경 내용을 DB에 Flush
+     * clearAutomatically = true
+     *  - 벌크쿼리를 실행한 후에, 영속성 컨텍스트를 자동으로 초기화한다.
+     *  - 벌크쿼리는 영속성 컨텍스트를 거치지 않고 DB를 직접 수정하므로, 초기화하지 않으면 이전 값이 남아 있는 엔티티를 조회할 수 있다.
+     * */
     @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query("""
             update Menu menu
@@ -223,10 +230,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
 }
 
 
-/* 네이티브 쿼리보다 JPQL이 권장되는 이유?
-* 1. DB종류에 덜 의존한다.
-* 2. JPA 기능과 자연스럽게 연결된다 -> 엔티티 기준으로 사용 가능하다.
-* 3. 네이티브 쿼리 -> 데이터베이스 테이블명, 컬럼명에 의존하지만, JPQL은 엔티티 구조로 관리 가능
-*    (테이블명·컬럼명이 바뀌어도 엔티티의 @Table, @Column 매핑만 수정하면 JPQL은 그대로 사용할 수 있다)
-* 네이티브 쿼리는 -> 해당 데이터베이스의 특징 기능
-* */
+
+
+
+

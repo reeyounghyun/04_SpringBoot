@@ -87,17 +87,16 @@ public class JpqlMenuController {
     }
 }
 
-
 // 코드 작성 순서
 /*
  *
  * 1. Controller 작성:
  *      1.어노테이션
- *          - 조회 메서드는 @Transactional(readOnly = true),
- *          - 등록·수정·삭제 메서드는 @Transactional을 붙입니다.
  *      2. 요청할 API,
  *      3. 돌려받을 변수
  *
  * 2. Service 작성
+ *      - 조회 메서드는 @Transactional(readOnly = true),
+ *      - 등록·수정·삭제 메서드는 @Transactional을 붙입니다.
  * 3. Repository 작성
  * */
