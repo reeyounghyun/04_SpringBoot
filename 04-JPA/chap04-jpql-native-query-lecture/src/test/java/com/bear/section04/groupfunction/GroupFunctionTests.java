@@ -48,15 +48,20 @@ public class GroupFunctionTests {
 	public void 특정_카테고리의_등록된_메뉴_수_조회() {
 		
 		// given
+		// 숫자 3을 categoryCodeParameter에 넣는다.
 		int categoryCodeParameter = 3;
 		
 		// when
+		// jpql을 테이블에서 가져올 값은 메뉴가격, menu_section04 테이블에서, categoryCode가 3인 메뉴의 개수를 문자열로 가져온다.
 		String jpql = "SELECT COUNT(m.menuPrice) FROM menu_section04 m WHERE m.categoryCode = :categoryCode";
+
+		// jpql을 실행하고, categoryCodeParameter를 넣는다.
 		long countOfMenu = entityManager.createQuery(jpql, Long.class)
 				.setParameter("categoryCode", categoryCodeParameter)
 				.getSingleResult();
 		
 		// then
+		// countOfMenu가 0보다 크거나 같으면 true를 반환한다.
 		assertTrue(countOfMenu >= 0);
 		System.out.println("countOfMenu = " + countOfMenu);
 		
@@ -69,14 +74,17 @@ public class GroupFunctionTests {
 		int categoryCodeParameter = 3;
 
 		// when
+		// SUM으로 메뉴 가격의 합계를 구하는 JPQL문 (menu_section04 엔티티에서 categoryCode가 :categoryCode(=3)인 메뉴 대상)
+		// 조회 결과가 없으면 SUM은 null을 반환한다.
 		String jpql = "SELECT SUM(m.menuPrice) FROM menu_section04 m WHERE m.categoryCode = :categoryCode";
 
 
-		//assertThrows 원하는 예외를 발생시키는지 확인하는 테스트를 할때 사용하는 검증
-		// assertThrows(원하는 예외 클레스, () => {예외 발생코드})
+		// 정의: assertThrows 원하는 예외를 발생시키는지 확인하는 테스트를 할때 사용하는 검증, 지정한 예외가 발생하면 테스트 통과.
+		// 문법:  assertThrows(원하는 예외 클레스, () => {예외 발생코드})
 		// then
 		assertThrows(NullPointerException.class, () -> {
 			// 기본자료형
+			// null을 long에 넣으려고 자동 언박싱(null.longValue())이 일어나서 NPE 발생
 			long sumOfPrice = entityManager.createQuery(jpql, Long.class)
 					.setParameter("categoryCode", categoryCodeParameter)
 					.getSingleResult();
@@ -91,6 +99,7 @@ public class GroupFunctionTests {
 		* */
 		// 랩핑 자료형 =->  NULL값을 받을수 있기때문에 해결할 수 있다.
 		assertDoesNotThrow(() -> {
+			// Long은 객체라서 null을 그대로 담을 수 있어요. 예외 없음
 			Long sumOfPrice = entityManager.createQuery(jpql, Long.class)
 					.setParameter("categoryCode", categoryCodeParameter)
 					.getSingleResult();
