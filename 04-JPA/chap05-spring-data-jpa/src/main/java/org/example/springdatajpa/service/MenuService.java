@@ -192,4 +192,13 @@ public class MenuService {
 
         return menuList.stream().map(MenuResponseDTO::from).toList();
     }
+
+    // 메뉴이름에 요청한 검색어가 포함된 메뉴 조회
+    @Transactional(readOnly = true)
+    public List<MenuResponseDTO> searchByName(String keyword) {
+        List<Menu> menuList = menuRepository
+                .searchByName(keyword);
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    }
 }

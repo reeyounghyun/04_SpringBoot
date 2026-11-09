@@ -158,4 +158,14 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
             @Param("status") String status);
 
 
+    /*메뉴이름에 요청한 검색어가 포함된 메뉴 조회*/
+    @Query("""
+            select menu
+            from Menu menu
+            join menu.category
+            where menu.menuName like concat('%', :keyword, '%') 
+            order by menu.menuCode asc
+            """)
+    List<Menu> searchByName(@Param("keyword") String keyword);
+
 }

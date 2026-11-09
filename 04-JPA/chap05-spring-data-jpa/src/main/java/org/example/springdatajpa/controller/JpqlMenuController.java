@@ -41,6 +41,15 @@ public class JpqlMenuController {
     ) {
         return menuService.searchByPriceRange(minPrice, maxPrice, status);
     }
+
+    /*
+     * 메뉴이름에 요청한 검색어가 포함된 메뉴를 조회한다.
+     * JPQL로 진행
+     * */
+    @GetMapping("/search/name")
+    public List<MenuResponseDTO> searchByName(@RequestParam String keyword) {
+        return menuService.searchByName(keyword);
+    }
 }
 
 
