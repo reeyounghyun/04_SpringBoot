@@ -5,18 +5,19 @@ import org.example.springdatajpa.dto.CategoryMenuStatisticsDTO;
 import org.example.springdatajpa.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
 
-    // insert update delete 단순 기존데이터만 가져올수있고 집계를 할수도 있다
+    // insert update delete 단순 기존데이터만 가져올 수 있고 집계를 할수도 있다
     // -> 안에서 응답받는 데이터가(엔티티 필드의 전체, 혹은 일부)
     // -> 엔티티 필드가 아닌 데이터 > 엔티티에 필드로 넣어야하나? 고민이 생김
     //    (쉽게 말해) 집계 결과(COUNT, AVG 등)처럼 엔티티에 없는 값을 조회하면 어디에 담아야 할지 고민이 생김
     //    엔티티에 필드를 추가하면 테이블 매핑이 깨지므로 X
-    // -> 해결방법 프로젝션을 사용할거임.(이전에 했던 방식으로 인터페이스로 결과 클래스를 만드는것과 동일함)
+    // -> 해결방법 프로젝션을 사용할거임.(이전에 했던 방식으로 인터페이스로 결과 클래스를 만드는 것과 동일함)
     @Query("select menu from Menu menu join fetch menu.category")
     List<Menu> findAllWithCategory();
 
@@ -126,4 +127,35 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
             order by category.categoryCode asc
             """)
     List<CategoryMenuCountProjection> findCategoryMenuCounts();
+
+    @Query("""
+            select menu
+            from Menu menu
+            join menu.category
+            where menu.category.categoryCode = :categoryCode
+            order by menu.menuCode asc
+            """)
+    List<Menu> findByCategory(Integer categoryCode);
+
+    /*
+     * 가격 범위 + 주문 가능 상태 검색
+     * - between A and B : A 이상 B 이하 (양 끝 포함)
+     * - :이름 → 메서드 매개변수 이름과 같은 값이 바인딩된다.
+     */
+    @Query("""
+            select menu
+            from Menu menu
+            join menu.category
+            where menu.menuPrice between :minPrice and :maxPrice
+            and menu.orderableStatus = :status
+            order by menu.menuPrice asc, menu.menuCode asc
+            """)
+
+    // @Param JPQL 파라미터와 Java 매개변수의 연결을 명확히 하기 위해 사용(생략 가능) ->  @Param이 JPQL 쿼리 안의 :이름 파라미터와 Java 메서드의 매개변수를 연결해 준다
+    List<Menu> searchByPriceRange(
+            @Param("minPrice") Integer minPrice,
+            @Param("maxPrice") Integer maxPrice,
+            @Param("status") String status);
+
+
 }

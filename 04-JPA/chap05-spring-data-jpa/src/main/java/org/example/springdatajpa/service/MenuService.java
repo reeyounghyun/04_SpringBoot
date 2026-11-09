@@ -1,10 +1,7 @@
 package org.example.springdatajpa.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.springdatajpa.dto.CategoryMenuCountProjection;
-import org.example.springdatajpa.dto.CategoryMenuStatisticsDTO;
-import org.example.springdatajpa.dto.MenuRequestDTO;
-import org.example.springdatajpa.dto.MenuResponseDTO;
+import org.example.springdatajpa.dto.*;
 import org.example.springdatajpa.entity.Category;
 import org.example.springdatajpa.entity.Menu;
 import org.example.springdatajpa.repository.CategoryRepository;
@@ -19,7 +16,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MenuService {
-
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
 
@@ -163,5 +159,37 @@ public class MenuService {
     @Transactional(readOnly = true)
     public List<CategoryMenuCountProjection> findCategoryMenuCounts() {
         return menuRepository.findCategoryMenuCounts();
+    }
+
+    // JPQL로 요청한 카테고리에 속한 메뉴 조회
+    @Transactional(readOnly = true)
+    public List<MenuResponseDTO> findByCategory(Integer categoryCode) {
+        List<Menu> menuList = menuRepository
+                .findByCategory(categoryCode);
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
+    }
+
+    // JPQL로 가격 범위와 주문 가능 상태가 일치하는 메뉴 조회
+    @Transactional(readOnly = true)
+    public List<MenuResponseDTO> searchByPriceRange(Integer minPrice, Integer maxPrice, String status) {
+       // minPrice 또는 maxPrice가 null -> 예외) 가격 범위를 올바르게 입력해야합니다.
+       // minPrice < 0, maxPrice < 0 -> 예외) 가격 범위를 올바르게 입력해야합니다.
+       // minPrice > maxPrice -> 예외) 가격 범위를 올바르게 입력해야합니다.
+       // ResponseStatusException 상품코드에 있는 예외를 사용하려고 사용함.
+
+        //[조건 1]
+        if(minPrice == null || maxPrice == null || minPrice < 0 || maxPrice < 0 || minPrice > maxPrice) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "가격 범위를 올바르게 입력해야합니다.");
+        }
+        //[조건 2 ] status -> Y or N
+        if("Y".equals(status) && "N".equals(status)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "주문 가능 상태는 Y 또는 N 이여야 합니다.");
+        }
+
+        List<Menu> menuList = menuRepository
+                .searchByPriceRange(minPrice, maxPrice, status);
+
+        return menuList.stream().map(MenuResponseDTO::from).toList();
     }
 }

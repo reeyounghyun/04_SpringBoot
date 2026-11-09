@@ -12,14 +12,12 @@ import java.util.List;
 @RequestMapping("/api/menus/query-method")
 @RequiredArgsConstructor
 public class QueryMethodMenuController {
-
     private final MenuService menuService;
 
     // 기본 저장 쿼리메서드
     // menu 저장
     @PostMapping
     public MenuResponseDTO create(@RequestBody MenuRequestDTO menuRequestDTO) {
-
         return menuService.create(menuRequestDTO);
     }
 
@@ -27,7 +25,6 @@ public class QueryMethodMenuController {
     // menu 수정
     @PutMapping("/{menuCode}")
     public MenuResponseDTO update(@PathVariable Integer menuCode, @RequestBody MenuRequestDTO menuRequestDTO) {
-
         return menuService.update(menuCode, menuRequestDTO);
     }
 
@@ -76,6 +73,8 @@ public class QueryMethodMenuController {
     ) {
         return menuService.findByCategoryQueryMethod(categoryCode);
     }
+
+
 
     /*
     * fk가 아닌 카테고리 이름으로 조회
