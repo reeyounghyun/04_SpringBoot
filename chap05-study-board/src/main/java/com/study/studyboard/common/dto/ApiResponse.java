@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+
+// ApiResponse: 컨트롤러들이 가져다 쓰는 도구
 public class ApiResponse<T> {
 
     private int status;

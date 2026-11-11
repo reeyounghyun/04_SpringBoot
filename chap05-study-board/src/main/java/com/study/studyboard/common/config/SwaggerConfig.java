@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+// SwaggerConfig 앱이 시작될 때 한 번 세팅
 public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
