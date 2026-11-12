@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: 05-Spring-AI
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        model: gpt-4o-mini
+        # 값이 낮을수록 일관되고 결정적, 높을수록 다양하고 무작위성이 높아짐
+        # 0.0 ~ 2.0
+        temperature: 1.0
+
+#LLM에 전달된 프롬프트를 보기 위해 로그 Advisor를 DEBUG로 설정
+logging:
+  level:
+    org.springframework.ai.chat.client.advisor: DEBUG
+
+springdoc:
+  swagger-ui:
+    # 스웨거 컨트롤러 정렬
+    tags-sorter: alpha
+    operations-sorter: method
