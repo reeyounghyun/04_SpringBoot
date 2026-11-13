@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.1.2'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.bear'
+version = '0.0.1-SNAPSHOT'
+description = 'study-board-ai'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springAiVersion', '2.0.2')
+}
+
+// BOM(Bill of Materials)은 함께 사용할 라이브러리들의 호환 버전을 모아 둔 명세서이다.
+// Spring AI BOM을 가져오면 각 Spring AI 의존성에 버전을 직접 지정하지 않아도 호환되는 버전이 자동으로 적용된다.
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+    }
+}
+dependencies {
+
+    // Spring AI 모듈
+    implementation 'org.springframework.ai:spring-ai-starter-model-openai'
+
+
+    // 시큐리티 암호화 모듈
+    implementation 'org.springframework.security:spring-security-crypto'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.2.0'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testCompileOnly 'org.projectlombok:lombok'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
