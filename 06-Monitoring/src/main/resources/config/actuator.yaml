@@ -1,0 +1,57 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # 모든 Actuator 엔드포인트를 공개
+      base-path: /actuator #기본값 설정
+
+
+#management에 info
+#/actuator/info 에 실어 보낼 정보의 종류
+  info:
+    build:
+      enabled: true
+    java:
+      enabled:
+    os:
+      enabled: true
+    env:
+      enabled: true
+
+  # @Timed 어노테이션 설정
+  # 지표 어노테이션 ( @Timed, @Counted 같은)을 찾아서 동작시킨다.
+  observations:
+    annotations:
+      enabled: true
+
+  # "[http.server.requests]" 메트릭에 대해 백분위수를 계산해서 응답받기 위한 설정
+  metrics:
+    distribution:
+      percentiles:
+        "[http.server.requests]": 0.5,0.95
+      expiry:
+        "[http.server.requests]": 30m
+
+   # health응답에 항목별 상태와 상세정보를 보여주게 설정
+  endpoint:
+    health:
+      show-components: always
+      show-details: always
+      group:
+        liveness:
+          include: # 재실행 함
+            - ping
+        readiness:
+          include: # 재실행 안함
+            - diskSpace
+            - db
+
+
+# 어플리케이션의 정보
+info:
+  app:
+    name: 복습 게시글 어플리케이션
+    description: 모니터링 실습용 어플리케이션
+    version: 1.0.0
+
+

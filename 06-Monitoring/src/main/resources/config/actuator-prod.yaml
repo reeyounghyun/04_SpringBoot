@@ -1,0 +1,13 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        # 모든 Actuator 엔드포인트를 공개하겠다.
+        #        include: "*"
+        include: health, info, metrics, prometheus
+      base-path: /actuator # 기본값
+
+  endpoint:
+    health:
+      show-components: never
+      show-details: never
