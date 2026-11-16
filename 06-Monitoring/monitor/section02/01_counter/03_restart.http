@@ -1,0 +1,7 @@
+@baseUrl = http://localhost:8080/actuator
+
+# 지표는 DB가 아니라 서버의 메모리에 들어있어서 서버가 꺼지면 사라지는데,
+# -> 프로메테우스에 저장할 것이다.
+### 1. 재시작 후 지표 조회
+GET {{baseUrl}}/metrics/study.post.created
+Accept: application/json

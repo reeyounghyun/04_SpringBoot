@@ -1,0 +1,38 @@
+@baseUrl = http://localhost:8080/actuator
+@apiBaseUrl = http://localhost:8080
+
+### 1. 게시글 API 는 그대로 동작하는가
+GET {{apiBaseUrl}}/api/posts
+Accept: application/json
+
+### 2. 열려 있는 엔드포인트 목록
+GET {{baseUrl}}
+Accept: application/json
+
+### 3. 환경 설정 조회 시도
+GET {{baseUrl}}/env
+Accept: application/json
+
+### 4. 로그 레벨 변경 시도
+POST {{baseUrl}}/loggers/org.springframework
+Content-Type: application/json
+
+{
+  "configuredLevel": "TRACE"
+}
+
+### 5. 상태 조회
+GET {{baseUrl}}/health
+Accept: application/json
+
+### 6. 지표 조회
+GET {{baseUrl}}/metrics/study.post.created
+Accept: application/json
+
+### 7. 프로메테우스 형식 지표 조회
+GET {{baseUrl}}/prometheus
+Accept: text/plain
+
+### 8. 원복 확인
+GET {{baseUrl}}/env
+Accept: application/json

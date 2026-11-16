@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:8080/actuator
+@apiBaseUrl = http://localhost:8080
+
+### 1. 게시글 등록 (정상)
+POST {{apiBaseUrl}}/api/posts
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "categoryId": 1,
+  "title": "모니터링 실습 게시글",
+  "body": "지표가 늘어나는지 확인하기 위한 글입니다."
+}
+
+### 2. 메트릭 목록에서 게시글 관련 지표 찾아보기
+GET {{baseUrl}}/metrics
+Accept: application/json
+
+
+### 3. HTTP 서버 요청 메트릭 조회 (Count 증가 확인)
+GET {{baseUrl}}/metrics/http.server.requests
+Accept: application/json

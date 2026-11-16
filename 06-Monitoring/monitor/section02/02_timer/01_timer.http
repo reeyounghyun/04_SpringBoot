@@ -1,0 +1,47 @@
+@baseUrl = http://localhost:8080/actuator
+@apiBaseUrl = http://localhost:8080
+
+## Timer : "몇 번 일어났는지" 와 "얼마나 걸렸는가" 두개를 기록하는 지표
+## 언제 사용할까? 느린가? 를 알고싶을 때 (외부서비스 통신하는 기능, 파일을 업로드 할 때, 등등)
+
+# @Timed 어노테이션 -> AOP를 사용하여 AOP를 추가해줘야 한다.
+## 메서드 위에 붙이면 그 메서드의 호출 횟수와 걸린시간을 Timer로 자동 기록해주는 어노테이션 이다.
+
+
+### 1. 타이머 조회 (404 확인)
+GET {{baseUrl}}/metrics/study.quiz.generate
+Accept: application/json
+
+### 2. AI 문제 생성 (1번 게시글, 문제 1개)
+POST {{apiBaseUrl}}/api/posts/1/quiezzes
+Content-Type: application/json
+
+1
+
+###
+### TOTAL_TIME : 실행에 걸린 시간을 모두 더한 값 (초)
+### MAX        : 가장 오래 걸린 실행의 시간 (초)
+### availableTags 의 class, method, exception 은 @Timed 가 자동으로 붙여 준 태그다.
+### 3. 타이머 다시 조회
+GET {{baseUrl}}/metrics/study.quiz.generate
+Accept: application/json
+
+### 4. AI 문제 생성 (실패 - 없는 게시글)
+POST {{apiBaseUrl}}/api/posts/99999/quiezzes
+Content-Type: application/json
+
+1
+
+### 실패한 실행도 COUNT 에 포함된다. @Timed 는 메서드가 예외로 끝나도 시간을 기록하기 때문이다.
+### availableTags 의 exception 값에 BusinessException 이 추가되어 있다.
+### 5. 타이머 다시 조회 (실패도 기록되는지 확인)
+GET {{baseUrl}}/metrics/study.quiz.generate
+Accept: application/json
+
+### 6. 성공한 실행만 조회
+GET {{baseUrl}}/metrics/study.quiz.generate?tag=exception:none
+Accept: application/json
+
+### 7. 프로메테우스 형식에서 확인
+GET {{apiBaseUrl}}/actuator/prometheus
+Accept: text/plain

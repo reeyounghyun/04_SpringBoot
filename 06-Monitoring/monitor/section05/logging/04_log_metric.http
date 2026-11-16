@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:8080/actuator
+@apiBaseUrl = http://localhost:8080
+
+### 1. 로그 발생 횟수 지표 조회
+GET {{baseUrl}}/metrics/logback.events
+Accept: application/json
+
+### 2. ERROR 로그 횟수만 조회
+GET {{baseUrl}}/metrics/logback.events?tag=level:error
+Accept: application/json
+
+### 3. ERROR 로그 발생시키기 - 이 요청을 5번 실행한다.
+GET {{apiBaseUrl}}/api/posts/abc
+Accept: application/json
+
+### 4. ERROR 로그 횟수 다시 조회
+GET {{baseUrl}}/metrics/logback.events?tag=level:error
+Accept: application/json
+
+### 5. 프로메테우스 형식에서 확인
+GET {{apiBaseUrl}}/actuator/prometheus
+Accept: text/plain

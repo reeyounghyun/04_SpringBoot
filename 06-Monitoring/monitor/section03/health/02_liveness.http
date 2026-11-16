@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:8080/actuator
+
+### 1. [DB 켜짐] liveness
+GET {{baseUrl}}/health/liveness
+Accept: application/json
+
+### 2. [DB 켜짐] readiness
+GET {{baseUrl}}/health/readiness
+Accept: application/json
+
+### 3. [DB 꺼짐] liveness
+GET {{baseUrl}}/health/liveness
+Accept: application/json
+
+### 4. [DB 꺼짐] readiness
+GET {{baseUrl}}/health/readiness
+Accept: application/json
+
+### 5. [DB 다시 켜짐] liveness
+GET {{baseUrl}}/health/liveness
+Accept: application/json

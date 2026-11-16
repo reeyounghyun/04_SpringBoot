@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:8080/actuator
+
+# 헬스 체크 Health 서버가 살아 있나? DB 연결은 되나?
+# 실행중인 서버가 지금 괜찮은지 지켜보는일 : 모니터링
+# Actuator : 스프링 부트가 제공하는 모듈, 실행중인 서버의 상태와 각종 수치를 HTTP 주소로 꺼낼 수 있게 해준다.
+# "그 모니터링을 가능하게 해 주는 도구 "Actuator"
+# 명칭: 엔드포인트
+### 노출된 Actuator API 목록
+ GET {{baseUrl}}
+Accept: application/json
+
+# 서버가 요청을 받을 수 있는 상태인지 가장 먼저 확인하는 주소 "status" : "UP";
+# "status" : "UP" => 요청을 받아도 되는 상태
+# "status" : "DOWN" => DB 연결 실패
+### 애플리케이션 상태
+GET {{baseUrl}}/health
+Accept: application/json
+
+### Liveness 상태
+GET {{baseUrl}}/health/liveness
+Accept: application/json
+
+### Readiness 상태
+GET {{baseUrl}}/health/readiness
+Accept: application/json

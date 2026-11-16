@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:8080/actuator
+@apiBaseUrl = http://localhost:8080
+
+#  Counter : 어떤 일이 일어날때 마다 1씩 올라가는 숫자 지표 (내려가지 않음)
+### 1. 내가 만든 지표 조회 (0 확인)
+GET {{baseUrl}}/metrics/study.post.created
+Accept: application/json
+
+### 2. 게시글 등록 (정상)
+POST {{apiBaseUrl}}/api/posts
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "categoryId": 1,
+  "title": "카운터 실습 게시글",
+  "body": "등록에 성공하면 카운터가 1 올라간다."
+}
+
+### 2번을 실행한 횟수만큼 COUNT 가 올라가 있다.
+### 3. 지표 다시 조회 (증가 확인)
+GET {{baseUrl}}/metrics/study.post.creation
+Accept: application/json
+
+### 4. 게시글 등록 (실패)
+POST {{apiBaseUrl}}/api/posts
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "categoryId": 99999,
+  "title": "실패하는 게시글",
+  "body": "저장되지 않으므로 카운터도 올라가지 않는다."
+}
+
+### COUNT 가 3번과 같다. 저장에 성공했을 때만 올리도록 코드를 작성했기 때문이다.
+### 무엇을 셀지는 increaseCreated() 를 어디에 두느냐로 우리가 정한다.
+### 5. 지표 다시 조회 (그대로인지 확인)
+GET {{baseUrl}}/metrics/study.post.created
+Accept: application/json
+
+### 6. 프로메테우스 형식에서 확인
+GET {{apiBaseUrl}}/actuator/prometheus
+Accept: text/plain

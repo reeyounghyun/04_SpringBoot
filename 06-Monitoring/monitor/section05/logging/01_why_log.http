@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:8080/actuator
+@apiBaseUrl = http://localhost:8080
+
+### 1. 없는 게시글 조회 (실패) - 2번, 3번도 이어서 실행한다.
+GET {{apiBaseUrl}}/api/posts/99999
+Accept: application/json
+
+### 2. 없는 게시글 조회 (실패)
+GET {{apiBaseUrl}}/api/posts/12345
+Accept: application/json
+
+### 3. 없는 게시글 조회 (실패)
+GET {{apiBaseUrl}}/api/posts/77777
+Accept: application/json
+
+### 4. 지표로 확인 - "404 가 3번 났다"
+GET {{baseUrl}}/metrics/http.server.requests?tag=uri:/api/posts/{postId}&tag=status:404
+Accept: application/json
+
+### 5. 없는 게시글 조회 (실패) - 실행한 뒤 콘솔을 본다.
+GET {{apiBaseUrl}}/api/posts/99999
+Accept: application/json

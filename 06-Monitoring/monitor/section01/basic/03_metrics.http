@@ -1,0 +1,51 @@
+@baseUrl = http://localhost:8080/actuator
+@apiBaseUrl = http://localhost:8080
+
+# health : UP / DOWN
+# 지표 : 숫자 (1. 요청이 몇 건 왔는지, 2. 얼마나 걸렸는지, 3. 메모리를 얼마나 쓰고있는지)
+
+### 메트릭 목록 조회
+GET {{baseUrl}}/metrics
+Accept: application/json
+
+### 1. HTTP 서버 요청 메트릭 조회
+# COUNT : 지금까지 처리한 요청 수
+# TOTAL_TIME : 해당 요청들을 처리하는 데 걸린 시간을 모두 더한 값
+# MAX : 가장 오래걸린 요청, 하나의 시간
+GET {{baseUrl}}/metrics/http.server.requests
+Accept: application/json
+
+### 2. 게시글 목록 조회
+GET {{apiBaseUrl}}/api/posts
+Accept: application/json
+
+### 3. HTTP 서버 요청 메트릭 조회 (Count 증가 확인)
+# 지표를 조회한 요청 자체도 HTTP 요청으로 함께 세어짐 => COUNT value가 올라간다
+GET {{baseUrl}}/metrics/http.server.requests
+Accept: application/json
+
+### 4. 존재하지 않는 게시글 단건 조회 (404 실패 발생)
+GET {{apiBaseUrl}}/api/posts/99999
+Accept: application/json
+
+### HTTP 상태 코드가 200인 요청 메트릭 조회
+# availableTags : 특정 태그의(원하는 태그) 요청만 선택해서 볼 수 있게 할 수 있는 목록
+GET {{baseUrl}}/metrics/http.server.requests?tag=status:200
+Accept: application/json
+
+### 5. HTTP 상태 코드가 404인 요청 메트릭 조회
+GET {{baseUrl}}/metrics/http.server.requests?tag=status:404
+Accept: application/json
+
+### 6. 게시글 단건 조회 경로에서 발생한 404 메트릭 조회
+GET {{baseUrl}}/metrics/http.server.requests?tag=uri:/api/posts/{postId}&tag=status:404
+Accept: application/json
+
+
+### 7. 게시글 목록 조회 경로에서 200인 경우
+GET {{baseUrl}}/metrics/http.server.requests?tag=uri:/api/posts/&tag=status:200
+Accept: application/json
+
+# 지표 : 서버의 상태를 나타내는 숫자 (스프링이 자동으로 세고 있음) /actuator/metrics로 꺼낼 수 있음
+# http.server.requests : 요청횟수, 누적시간, 최대시간을 알려준다.
+# 태그로 원하는 숫자를 나누어 볼 수 있다.

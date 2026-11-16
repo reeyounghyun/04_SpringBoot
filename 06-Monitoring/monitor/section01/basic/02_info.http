@@ -1,0 +1,9 @@
+@baseUrl = http://localhost:8080/actuator
+
+# 이 서버[ {{baseUrl}}/info ] 는 뭐하는 서버인가?
+# 서버의 이름, 버전 등을 개발자가 기록해놓은 내용을 출력해준다.
+# 서버를 여러대 두고 버전이 다를 때
+
+### 서버의 기본정보
+GET {{baseUrl}}/info
+Accept: application/json

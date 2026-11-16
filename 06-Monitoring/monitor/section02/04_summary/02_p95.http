@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:8080/actuator
+@apiBaseUrl = http://localhost:8080
+
+### 1. 빠른 요청 (0.01초) - 이 요청을 9번 실행한다.
+GET {{apiBaseUrl}}/api/practice/sleep?ms=10
+
+### 2. 느린 요청 (2초) - 1번만 실행한다.
+GET {{apiBaseUrl}}/api/practice/sleep?ms=2000
+
+### 3. 응답 시간 지표 조회 - 평균 계산
+GET {{baseUrl}}/metrics/http.server.requests?tag=uri:/api/practice/sleep
+Accept: application/json
+
+### 4. 프로메테우스 형식에서 p50, p95 확인
+GET {{apiBaseUrl}}/actuator/prometheus
+Accept: text/plain
+
+### 5. 빠른 요청을 더 보낸다 - 1번을 10번 더 실행한 뒤 이 요청으로 다시 확인한다.
+GET {{apiBaseUrl}}/actuator/prometheus
+Accept: text/plain

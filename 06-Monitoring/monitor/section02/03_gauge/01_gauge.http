@@ -1,0 +1,30 @@
+@baseUrl = http://localhost:8080/actuator
+//@apiBaseUrl = http://localhost:8080
+@apiBaseUrl = http://172.22.122.1:8080
+
+
+#Gauge(게이지) :  지금 이 순간의 값을 보여주는 수치
+# 접속중인 사용자수, 처리를 기다리는 작업 수, 메모리나 디스크, DB 커넥션 수....등
+
+
+GET {{apiBaseUrl}}/api/posts
+
+
+### 1. 컴퓨터 전체의 CPU 사용률 조회
+GET {{baseUrl}}/metrics/system.cpu.usage
+Accept: application/json
+
+### 2. CPU 사용률 다시 조회 (여러 번 실행해서 값이 오르내리는지 확인)
+GET {{baseUrl}}/metrics/system.cpu.usage
+Accept: application/json
+
+### 3. 사용 중인 메모리 조회 (참고)
+GET {{baseUrl}}/metrics/jvm.memory.used
+Accept: application/json
+
+### 4. 사용 중인 DB 커넥션 수 조회
+GET {{baseUrl}}/metrics/hikaricp.connections.active
+Accept: application/json
+
+# Counter : 일어난 횟수 수집
+# Gauge : 지금의 양을 수집

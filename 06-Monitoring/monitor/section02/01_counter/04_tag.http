@@ -1,0 +1,43 @@
+@baseUrl = http://localhost:8080/actuator
+@apiBaseUrl = http://localhost:8080
+
+
+### 게시글이 몇개 등록되어 있는가? 만 봤는데
+## 어느 카테고리의 게시글이 많이 등록되었는가? 궁금하다면 -> 카운터에 태그를 붙이기
+## 분류별 등록 수 측정
+### 1. 게시글 등록 - 분류 1번 (Spring Boot)
+POST {{apiBaseUrl}}/api/posts
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "categoryId": 1,
+  "title": "태그 실습 - Spring Boot",
+  "body": "category 태그 값이 Spring Boot 인 카운터가 올라간다."
+}
+
+### 이 요청은 두세 번 실행해서 1번과 숫자가 다르게 만든다.
+### 2. 게시글 등록 - 분류 2번 (JPA)
+POST {{apiBaseUrl}}/api/posts
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "categoryId": 2,
+  "title": "태그 실습 - JPA",
+  "body": "category 태그 값이 JPA 인 카운터가 올라간다."
+}
+
+### COUNT 는 모든 분류를 합친 값이다.
+### availableTags 에 category 가 생겼고, values 에 Spring Boot 와 JPA 가 들어 있다.
+### 3. 전체 등록 수 조회
+GET {{baseUrl}}/metrics/study.post.creation
+Accept: application/json
+
+### 4. JPA 분류의 등록 수만 조회
+GET {{baseUrl}}/metrics/study.post.creation.by.category?tag=category:JPA
+Accept: application/json
+
+### 5. 프로메테우스 형식에서 확인
+GET {{apiBaseUrl}}/actuator/prometheus
+Accept: text/plain

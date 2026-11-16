@@ -1,0 +1,24 @@
+@apiBaseUrl = http://localhost:8080
+
+### 1. INFO - 게시글 등록
+POST {{apiBaseUrl}}/api/posts
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "categoryId": 1,
+  "title": "로그 실습 게시글",
+  "body": "INFO 로그가 찍히는지 확인한다."
+}
+
+### 2. WARN - 없는 게시글 조회
+GET {{apiBaseUrl}}/api/posts/99999
+Accept: application/json
+
+### 3. ERROR - 숫자 자리에 글자를 넣은 요청
+GET {{apiBaseUrl}}/api/posts/abc
+Accept: application/json
+
+### 4. DEBUG - 게시글 목록 조회
+GET {{apiBaseUrl}}/api/posts
+Accept: application/json
