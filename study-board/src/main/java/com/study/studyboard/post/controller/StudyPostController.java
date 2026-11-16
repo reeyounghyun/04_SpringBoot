@@ -27,14 +27,15 @@ public class StudyPostController {
     /**
      * 페이징(Paging)
      * - 데이터를 전부주지 않고 몇번째 페이지를 한번에 몇 개씩 나누어 주는 방식
-     *
+     * <p>
      * Pageable -> 페이지번호, 페이지크기, 정렬 정보
      * - Spring Data가 제공하는 "페이지 요청 정보" 인터페이스
      * - /api/posts?page=1&size=10&sort=createdAt,desc
      * page -> 페이지 번호(0부터)
      * size -> 한번에 담을 갯수
      * sort -> 정렬기준
-     * */
+     *
+     */
     // 게시글 목록 조회
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponseDTO<PostListItemResponseDTO>>> findPosts(
@@ -45,7 +46,7 @@ public class StudyPostController {
                 .ok(ApiResponse.of(HttpStatus.OK, "게시물 목록조회 완료", postPage));
     }
 
-    // 게시글 상세
+    //자료 상세
     @GetMapping("/{postId}")
     public ResponseEntity<PostDetailResponseDTO> findPost(@PathVariable long postId) throws Throwable {
         PostDetailResponseDTO post = studyPostService.detailFindPost(postId);
@@ -53,6 +54,10 @@ public class StudyPostController {
     }
 
     // 자료 등록
+    // @Valid: 담긴 값이 DTO에 적힌 규칙(@NotBlank 등)에 맞는지 검사한다
+    // @RequestBody : 요청 본문(JSON)을 읽어서 PostCreateRequestDTO 객체로 바꾸고, 그걸 request에 담는다
+
+    //"요청 본문을 PostCreateRequestDTO로 바꿔서 request에 담고, 규칙에 맞는지 검사한다
     @PostMapping
     public ResponseEntity<ApiResponse<PostDetailResponseDTO>> createPost(@Valid @RequestBody PostCreateRequestDTO request) {
 
@@ -65,11 +70,11 @@ public class StudyPostController {
 
     // 자료 수정
     @PatchMapping("/{postId}")
-    public ResponseEntity<ApiResponse<PostDetailResponseDTO>> updatePost (
+    public ResponseEntity<ApiResponse<PostDetailResponseDTO>> updatePost(
             @PathVariable Long postId,
             @Valid @RequestBody PostUpdateRequestDTO request
     ) {
-        PostDetailResponseDTO updated =  studyPostService.updatePost(postId, request);
+        PostDetailResponseDTO updated = studyPostService.updatePost(postId, request);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "게시물 수정 완료", updated));
     }
