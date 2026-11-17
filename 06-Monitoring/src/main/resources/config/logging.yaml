@@ -1,5 +1,23 @@
 logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.orm.jdbc.bind: trace
-    org.springframework.ai.chat.client.advisor: debug
+  pattern:
+    # 로그를 작성하떄 식별자를 붙어서 찍는다.
+    correlation: "[%X{traceId:-}]"
+
+#logging:
+#  level:
+#    org.hibernate.SQL: debug
+#    org.hibernate.orm.jdbc.bind: trace
+#    org.springframework.ai.chat.client.advisor: debug
+
+# 로그 레벨 설정 파일 (application.yaml의 spring.config.import로 불러온다)
+# 레벨 순서: trace < debug < info < warn < error, 지정한 레벨 이상만 출력된다.
+# 사용하려면 아래 설정의 주석(#)을 해제한다.
+
+#logging:
+#  level:
+#    # JPA(Hibernate)가 실행하는 SQL 문을 출력한다.
+#    org.hibernate.SQL: debug
+#    # SQL의 ? 자리에 바인딩되는 실제 파라미터 값을 출력한다.
+#    org.hibernate.orm.jdbc.bind: trace
+#    # Spring AI ChatClient의 요청 프롬프트와 응답을 출력한다. (SimpleLoggerAdvisor 사용 시)
+#    org.springframework.ai.chat.client.advisor: debug

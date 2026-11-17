@@ -1,9 +1,17 @@
 @apiBaseUrl = http://localhost:8080
 
+## 05_trace_id 요청 식별자 라고한다.
+## 서버에서 여러사람의 요청을 처리할때 로그가 뒤섞이지 않도록 이름표를 붙이는 역할 이다.
+
+## 붙이는법
+## 1. 필터에서 번호를 만들어 MDC(스레드의 저장공간)에 넣는다.
+## 2. MDC에 적은 값은 모든 로그에 자동으로 따라붙는다.
+
 ### 1. 게시글 목록 조회 - 실행한 뒤 콘솔을 본다.
 GET {{apiBaseUrl}}/api/posts
 Accept: application/json
 
+#X-Trace-Id: 9e98e195 => 스레드 할당이 될떄마다 id가 변경된다.
 ### 2. 한 번 더 실행
 GET {{apiBaseUrl}}/api/posts
 Accept: application/json
