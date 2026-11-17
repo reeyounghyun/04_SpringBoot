@@ -17,6 +17,7 @@ import com.bear.studyboard.post.dto.UpdatePostRequestDTO;
 import com.bear.studyboard.post.entity.StudyPost;
 import com.bear.studyboard.post.repository.StudyPostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StudyPostService {
@@ -64,6 +66,10 @@ public class StudyPostService {
         // 등록된 게시글의 본문 글자수를 기록
         postBodyLengthSummary.record(savedPost.getBody());
 
+        // INFO : 정상적으로 일어난다
+        log.info("게시글 등록 - postId={}, authorId{}, category={}",
+                savedPost.getId(), savedPost.getAuthor().getId(), savedPost.getCategory().getName());
+
         return PostDetailResponseDTO.from(savedPost);
     }
 
@@ -73,6 +79,9 @@ public class StudyPostService {
         int pageNumber = pageable.getPageNumber();
         int pageSize = pageable.getPageSize();
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt", "id");
+
+        // 기본설정 INFO레벨에서는 안보인다.
+        log.debug("게시글 목록 조회 - page={} size={}", pageNumber,pageSize);
 
         Pageable pageRequest = PageRequest.of(pageNumber, pageSize, sort);
 

@@ -2,6 +2,7 @@
 @apiBaseUrl = http://localhost:8080
 
 ### 1. 우리 프로젝트 패키지의 현재 로그 레벨 조회
+##GET {{baseUrl}}/loggers/사용경로
 GET {{baseUrl}}/loggers/com.bear.studyboard
 Accept: application/json
 
@@ -21,12 +22,13 @@ Content-Type: application/json
 GET {{apiBaseUrl}}/api/posts
 Accept: application/json
 
-### 5. 로그 레벨 원복
+### 5. 로그 레벨을 TRACE 로 변경
+## "TRACE" 눈 매우 많이 사소한 로그들까지 출력과 저장을 하는데, 그러면 자원 손해로 이어지고 성능 저하의 영향을 끼친다.
 POST {{baseUrl}}/loggers/com.bear.studyboard
-Content-Type: application/json
 
+Content-Type: application/json
 {
-  "configuredLevel": null
+  "configuredLevel": "TRACE"
 }
 
 ### 6. 원복 확인
