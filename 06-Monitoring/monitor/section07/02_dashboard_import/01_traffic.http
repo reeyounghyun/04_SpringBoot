@@ -1,0 +1,53 @@
+@apiBaseUrl = http://localhost:8080
+
+### 1. 게시글 등록 - 분류 1번 (Spring Boot)
+POST {{apiBaseUrl}}/api/posts
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "categoryId": 1,
+  "title": "대시보드 실습 - Spring Boot",
+  "body": "게시글 등록 그래프가 솟는지 확인한다."
+}
+
+### 2. 게시글 등록 - 분류 2번 (JPA)
+POST {{apiBaseUrl}}/api/posts
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "categoryId": 2,
+  "title": "대시보드 실습 - JPA",
+  "body": "분류별 선이 따로 그려지는지 확인한다."
+}
+
+### 3. 게시글 목록 조회 (정상 요청)
+GET {{apiBaseUrl}}/api/posts
+Accept: application/json
+
+### 4. 없는 게시글 조회 (404)
+GET {{apiBaseUrl}}/api/posts/99999
+Accept: application/json
+
+### 5. 숫자 자리에 글자를 넣은 요청 (500)
+GET {{apiBaseUrl}}/api/posts/abc
+Accept: application/json
+
+### 6. 빠른 요청 (0.01초) - 9번 실행한다.
+GET {{apiBaseUrl}}/api/practice/sleep?ms=10
+
+### 7. 느린 요청 (2초) - 1번 실행한다.
+GET {{apiBaseUrl}}/api/practice/sleep?ms=2000
+
+### 8. AI 문제 생성 (1번 게시글, 문제 1개)
+POST {{apiBaseUrl}}/api/posts/1/quiezzes
+Content-Type: application/json
+
+1
+
+### 9. AI 문제 생성 실패 (없는 게시글)
+POST {{apiBaseUrl}}/api/posts/99999/quiezzes
+Content-Type: application/json
+
+1

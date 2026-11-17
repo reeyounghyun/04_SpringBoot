@@ -1,0 +1,17 @@
+@apiBaseUrl = http://localhost:8080
+
+### 1. AI 문제 생성 실패 (없는 게시글)
+POST {{apiBaseUrl}}/api/posts/99999/quiezzes
+Content-Type: application/json
+
+1
+
+### 2. AI 문제 생성 (1번 게시글, 문제 1개) - 두세 번만 실행한다.
+POST {{apiBaseUrl}}/api/posts/1/quiezzes
+Content-Type: application/json
+
+1
+
+### 3. 서버가 살아 있는지 확인
+GET {{apiBaseUrl}}/actuator/health
+Accept: application/json

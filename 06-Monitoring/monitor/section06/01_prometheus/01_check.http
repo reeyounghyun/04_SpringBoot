@@ -1,0 +1,13 @@
+@apiBaseUrl = http://localhost:8080
+@prometheusUrl = http://localhost:9090
+
+### 1. 스프링 서버가 내놓는 지표
+GET {{apiBaseUrl}}/actuator/prometheus
+Accept: text/plain
+
+### 2. 프로메테우스가 실행 중인지 확인
+GET {{prometheusUrl}}/-/healthy
+
+### 3. 프로메테우스에게 "수집 대상이 살아 있는가" 물어보기
+GET {{prometheusUrl}}/api/v1/query?query=up
+Accept: application/json

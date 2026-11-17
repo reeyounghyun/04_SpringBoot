@@ -1,0 +1,18 @@
+@apiBaseUrl = http://localhost:8080
+@baseUrl = http://localhost:8080/actuator
+
+### 1. ERROR 로그 발생시키기 - 이 요청을 10번 실행한다.
+GET {{apiBaseUrl}}/api/posts/abc
+Accept: application/json
+
+### 2. ERROR 로그 수 확인
+GET {{baseUrl}}/metrics/logback.events?tag=level:error
+Accept: application/json
+
+### 3. 정상 요청
+GET {{apiBaseUrl}}/api/posts
+Accept: application/json
+
+### 4. (직접 해보기) 서버가 살아 있는지 확인
+GET {{baseUrl}}/health
+Accept: application/json

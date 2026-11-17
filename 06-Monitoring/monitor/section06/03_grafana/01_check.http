@@ -1,0 +1,10 @@
+@grafanaUrl = http://localhost:3000
+@prometheusUrl = http://localhost:9090
+
+### 1. 그라파나가 실행 중인지 확인
+GET {{grafanaUrl}}/api/health
+Accept: application/json
+
+### 2. 그라파나가 프로메테우스에게 물어보는 방식
+GET {{prometheusUrl}}/api/v1/query?query=up
+Accept: application/json
