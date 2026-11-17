@@ -37,3 +37,6 @@ out/
 .vscode/
 
 .yaml
+
+### 비밀값(OpenAI API 키) 포함 설정 파일 ###
+src/main/resources/application.yaml
